@@ -1,7 +1,8 @@
 import express from 'express';
-
+import './config/bdd.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import AllUsers from './routes/usersRoutes.js';
 
 
 dotenv.config();
@@ -12,11 +13,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/api', 
+AllUsers
+);
 
 
 
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
     res.json({message : "Bienvenue dans l'API d'escape Game !"});
 });
 

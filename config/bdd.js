@@ -12,4 +12,12 @@ port: process.env.DB_PORT,
 
 });
 
+bdd.getConnection()
+
+    .then(() => 
+    console.log("database OK 🟢​"))
+
+    .catch(error => console.error("database KO 🔴​", error));
+
 export default bdd;
+
