@@ -2,7 +2,12 @@ import express from 'express';
 import './config/bdd.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import AllUsers from './routes/usersRoutes.js';
+import usersRoutes from './routes/usersRoutes.js';
+import accountRoutes from './routes/accountRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import escapeGameRoutes from './routes/escapeGameRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
+import feedbackRoutes from './routes/feedbackRoutes.js'
 
 
 dotenv.config();
@@ -14,10 +19,23 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', 
-AllUsers
+usersRoutes,
+accountRoutes, 
+bookingRoutes,
+escapeGameRoutes, 
+paymentRoutes,
+feedbackRoutes
 );
 
-
+app.get ('/AllUsers', async (req, res) => {
+    try {
+        const [users] = await bdd.query("SELECT * from users");
+        res.status(200).json({message: "Utilisateurs récupérés avec succès", users}) 
+    } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs:", error);
+    }
+}
+)
 
 
 app.get("/test", (req, res) => {
