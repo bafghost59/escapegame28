@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 9.4.0, for macos15.4 (arm64)
 --
--- Host: localhost    Database: bdd_EG29
+-- Host: localhost    Database: bdd_eg29
 -- ------------------------------------------------------
 -- Server version	9.4.0
 
@@ -16,14 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `bdd_EG29`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `bdd_EG29` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-
-USE `bdd_EG29`;
-
---
 -- Table structure for table `account`
 --
 
@@ -35,7 +27,7 @@ CREATE TABLE `account` (
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id_account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +58,7 @@ CREATE TABLE `booking` (
   KEY `fk_booking_escape` (`escape_id`),
   CONSTRAINT `fk_booking_escape` FOREIGN KEY (`escape_id`) REFERENCES `escapeGame` (`id_escape`),
   CONSTRAINT `fk_booking_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +88,7 @@ CREATE TABLE `escapeGame` (
   `photo_escape` varchar(255) NOT NULL,
   `video` varchar(255) NOT NULL,
   PRIMARY KEY (`id_escape`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +120,7 @@ CREATE TABLE `feedback` (
   CONSTRAINT `fk_feedback_escape` FOREIGN KEY (`escape_id`) REFERENCES `escapeGame` (`id_escape`),
   CONSTRAINT `fk_feedback_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`),
   CONSTRAINT `feedback_chk_1` CHECK ((`rated` between 1 and 5))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +148,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`id_payment`),
   KEY `fk_payment_booking` (`booking_id`),
   CONSTRAINT `fk_payment_booking` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id_booking`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +181,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id_user`),
   KEY `account` (`account_id`),
   CONSTRAINT `account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id_account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-28 15:47:31
+-- Dump completed on 2025-12-01 16:07:23
