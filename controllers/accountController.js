@@ -5,7 +5,14 @@ import {
   getAccountById,
   updateAccount,
   deleteAccount,
+  getAccountByLogin,
 } from '../models/accountModel.js';
+
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
 
 export const createAccountController = async (req, res) => {
@@ -15,7 +22,9 @@ export const createAccountController = async (req, res) => {
       return res.status(400).json({ message: 'login et password sont requis' });
     }
 
-    const result = await createAccount({ login, password });
+   const mdpHash = bcrypt.hashSync(password, 10);
+   console.log(mdpHash)
+    const result = await createAccount({ login, mdpHash });
     res.status(201).json({
       message: 'Compte créé',
       id_account: result.insertId,
@@ -90,3 +99,40 @@ export const deleteAccountController = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
+export const ConnexionAccount = async (req, res) => {
+  const { login, password } = req.body; 
+  try {
+    const loginInDb = await getAccountByLogin(login);
+    if (!loginInDb) {
+      return res.status(401).json({error : "Utilisateur non trouvé"})
+    }
+    const isPasswordValid = await bcrypt.compare(password, loginInDb.password)
+        if (!isPasswordValid) {
+      return res.status(401).json({ error: "Mot de passe incorrect" });
+    }
+
+    const payload = {id: loginInDb.id}
+
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });  
+
+      return res.status(200).json({
+      message: "Connexion réussie",
+     loginInDbId: loginInDb.id,
+      token
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Erreur serveur" });
+  }
+}
+
+export const DeconnexionAccount = async (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ error: "Erreur lors de la déconnexion" });
+        }
+        res.clearCookie('connect.sid');
+        res.status(200).json({ message: "Déconnexion réussie" });
+    })
+}

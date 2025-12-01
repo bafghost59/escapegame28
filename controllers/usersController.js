@@ -36,6 +36,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
+    console.log("registerUser body:", req.body);
   try {
     const {
       login,
@@ -47,7 +48,7 @@ export const registerUser = async (req, res) => {
       postal_code,
       city,
     } = req.body;
-
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountResult = await createAccount({
       login,

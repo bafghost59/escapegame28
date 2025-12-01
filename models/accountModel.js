@@ -1,8 +1,8 @@
 import bdd from '../config/bdd.js';
 
-export const createAccount = async ({ login, password }) => {
+export const createAccount = async ({ login, mdpHash }) => {
   const addAccount = 'INSERT INTO account (login, password) VALUES (?, ?)';
-  const [result] = await bdd.query(addAccount, [login, password]);
+  const [result] = await bdd.query(addAccount, [login, mdpHash]);
   return result;
 }
 

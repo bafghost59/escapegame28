@@ -8,6 +8,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import escapeGameRoutes from './routes/escapeGameRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import feedbackRoutes from './routes/feedbackRoutes.js'
+import session from 'express-session';
 
 
 dotenv.config();
@@ -18,14 +19,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(session({
+    secret: 'tonSecret',
+   resave: false,
+   saveUninitialized: true,
+   cookie: { secure: false }
+}))
+
 app.use('/api', 
 usersRoutes,
 accountRoutes, 
 bookingRoutes,
 escapeGameRoutes, 
 paymentRoutes,
-feedbackRoutes
+feedbackRoutes, 
+
 );
+
+
 
 app.get ('/AllUsers', async (req, res) => {
     try {
