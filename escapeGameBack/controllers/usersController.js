@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountResult = await createAccount({
       login,
-      password: hashedPassword,
+      mdpHash: hashedPassword,
     });
     const account_id = accountResult.insertId;
     const created_at = new Date();
