@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './Components/NavBar'
 import FooterEscapeGame from './Components/Footer'
 import PageAccueil from './Pages/PageAccueil'
