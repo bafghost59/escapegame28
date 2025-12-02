@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#1E1E2F] shadow-lg">
       <nav
-        className="mx-auto max-w-7xl px-4 md:px-6 py-4 flex items-center justify-between"
+        className="mx-auto max-w-[90vw] px-4 md:px-6 py-4 flex items-center justify-between"
         aria-label="Navigation principale"
       >
         {/* LOGO */}
@@ -34,7 +34,7 @@ export default function Navbar() {
           <img
             src={Logo}
             alt="Logo du site"
-            className="h-10 w-auto object-contain cursor-pointer"
+            className="h-20 w-auto object-contain cursor-pointer"
           />
           <span className="sr-only">Accueil</span>
         </div>
