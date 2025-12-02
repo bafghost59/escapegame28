@@ -1,4 +1,4 @@
-import Navbar from './Components/NavBar'
+import Navbar from './Components/NavBar.jsx'
 import CarouselEscapeGame from './Components/Caroussel'
 import FooterEscapeGame from './Components/Footer'
 import Example from './Components/Example'

@@ -24,7 +24,7 @@ export default function Navbar() {
     }, [open]);
 
     return (
-        <header className="fixed top-0 left-0 w-full z-50 bg-[#1E1E2F] shadow-lg">
+        <header className="sticky top-0 left-0 w-full z-50 bg-[#1E1E2F] shadow-lg">
             <nav
                 className="mx-auto max-w-[90vw] px-4 md:px-6 py-4 flex items-center justify-between"
                 aria-label="Navigation principale"
