@@ -1,7 +1,7 @@
-import Navbar from './Components/NavBar'
-import CarouselEscapeGame from './Components/Caroussel'
-import FooterEscapeGame from './Components/Footer'
-import Example from './Components/Example'
+import Navbar from '../Components/NavBar'
+import CarouselEscapeGame from '../Components/Caroussel'
+import FooterEscapeGame from '../Components/Footer'
+import Example from '../Components/Example'
 
 function App() {
   return (
