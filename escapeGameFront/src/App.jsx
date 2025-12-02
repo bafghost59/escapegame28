@@ -6,9 +6,9 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Contenu principal /}
+      {/* Contenu principal */}
       <main className="flex-1">
-        {/ le contenu sera ici */}
+        {/* le contenu sera ici */}
       </main>
 
       <FooterEscapeGame />
