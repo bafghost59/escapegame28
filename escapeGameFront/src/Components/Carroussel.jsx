@@ -1,4 +1,3 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import slide1 from "../assets/imgcarrousel1.png";
@@ -49,7 +48,7 @@ function Carrousel() {
           style={{ filter: "invert(1)" }}
           aria-hidden="true"
         ></span>
-        <span className="visually-hidden">Previous</span>
+        <span className="visually-hidden">Avant</span>
       </button>
       <button
         className="carousel-control-next"
@@ -62,7 +61,7 @@ function Carrousel() {
           style={{ filter: "invert(1)" }}
           aria-hidden="true"
         ></span>
-        <span className="visually-hidden">Next</span>
+        <span className="visually-hidden">Après</span>
       </button>
     </div>
   );

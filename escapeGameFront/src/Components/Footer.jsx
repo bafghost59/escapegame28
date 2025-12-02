@@ -1,4 +1,6 @@
 import logo from "../assets/Logo.png";
+import { Link } from "react-router-dom";
+
 
 export default function FooterEscapeGame() {
     return (
@@ -19,20 +21,14 @@ export default function FooterEscapeGame() {
                         </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            className="text-white"
-                        >
+                        <Link to="/cgu" className="text-white no-underline transition-colors hover:text-[#F5A623]">
                             Conditions d'utilisation
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            className="text-white"
-                        >
+                        <Link to="/rgpd" className="text-white transition-colors hover:text-[#F5A623]">
                             Politique de confidentialité
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a
@@ -50,7 +46,7 @@ export default function FooterEscapeGame() {
 
             {/* Copyright */}
             <p className="text-center text-sm">
-                &copy; 2025 Projet Escape Game - Bafo, Cyprien & Marion 
+                &copy; 2025 Projet Escape Game - Bafo, Cyprien & Marion
             </p>
         </footer>
     );

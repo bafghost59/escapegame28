@@ -14,8 +14,6 @@ function PageAccueil() {
         `}
       </style>
 
-      {/* Navbar */}
-      <Navbar />
 
       {/* Hero Header */}
       <section
