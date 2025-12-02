@@ -13,7 +13,7 @@ export default function FooterEscapeGame() {
                     <li>
                         <a
                             href="#"
-                            className="transition-colors hover:text-[#F5A623]"
+                            className="text-white"
                         >
                             À propos
                         </a>
@@ -21,7 +21,7 @@ export default function FooterEscapeGame() {
                     <li>
                         <a
                             href="#"
-                            className="transition-colors hover:text-[#F5A623]"
+                            className="text-white"
                         >
                             Conditions d'utilisation
                         </a>
@@ -29,7 +29,7 @@ export default function FooterEscapeGame() {
                     <li>
                         <a
                             href="#"
-                            className="transition-colors hover:text-[#F5A623]"
+                            className="text-white"
                         >
                             Politique de confidentialité
                         </a>
@@ -37,7 +37,7 @@ export default function FooterEscapeGame() {
                     <li>
                         <a
                             href="#"
-                            className="transition-colors hover:text-[#F5A623]"
+                            className="text-white"
                         >
                             Contact
                         </a>
