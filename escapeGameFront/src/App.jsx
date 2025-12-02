@@ -1,29 +1,28 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './Components/NavBar'
-import FooterEscapeGame from './Components/Footer'
-import PageAccueil from './Pages/PageAccueil'
+import Navbar from './Components/NavBar.jsx'
 
+import FooterEscapeGame from './Components/Footer'
+import PageInscription from './Pages/PageInscription.jsx'
+import PageConnexion from './Pages/PageConnexion.jsx'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  return (
-    <Router>
-      <div className="min-h-screen flex flex-col">
-
+  return  <>
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col bg-[#1E1E2F]">
         <Navbar />
 
-        {/* Contenu principal */}
-        <main className="flex-1">
+        <main className="flex-1 flex">
           <Routes>
-            {/* Page d'accueil */}
-            <Route path="/" element={<PageAccueil />} />
-
+            <Route path="/inscription" element={<PageInscription />} />
+            <Route path="/connexion" element={<PageConnexion />} />
           </Routes>
         </main>
 
         <FooterEscapeGame />
       </div>
-    </Router>
-  )
+    </BrowserRouter>
+    </>
+  
 }
 
 export default App
