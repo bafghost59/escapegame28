@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function FooterEscapeGame() {
     return (
-        <footer className="w-full bg-[#1E1E2F] p-8 text-white">
+        <footer className="w-full bg-[#1E1E2F] p-4 text-white">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Logo */}
                 <img src={logo} alt="Escape Game Logo" className="w-12" />
