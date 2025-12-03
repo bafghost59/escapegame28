@@ -9,6 +9,7 @@ import PageConnexion from './Pages/PageConnexion.jsx'
 import PageCatalogue from './Pages/PageCatalogue';
 import { Route, Routes } from "react-router-dom";
 import PageEscapeDetail from './Pages/PageEscapeDetail';
+import PageSupport from './Pages/PageSupport.jsx';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/inscription" element={<PageInscription />} />
           <Route path="/connexion" element={<PageConnexion />} />
           <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
+          <Route path='/support' element={<PageSupport/>} />
         </Routes>
       </main>
 
