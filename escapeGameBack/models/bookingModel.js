@@ -97,3 +97,35 @@ export const deleteBooking = async (id_booking) => {
 };
 
 export default getAllBookings;
+
+export const checkAvailability = async (hours_selected, escape_id) => {
+  const sql = `
+    SELECT id_booking
+    FROM booking
+    WHERE hours_selected = ?
+    AND escape_id = ?
+    AND status != 'annulé'
+    LIMIT 1
+  `;
+  const [rows] = await bdd.query(sql, [hours_selected, escape_id]);
+  return rows.length > 0;
+};
+
+const alreadyTaken = await checkAvailability(hours_selected, escape_id);
+
+if (alreadyTaken) {
+  return res.status(409).json({ message: "Créneau déjà réservé" });
+}
+
+export const getBookingsByUserId = async (user_id) => {
+  const sql = `
+    SELECT booking.*, escapeGame.title, escapeGame.location
+    FROM booking
+    INNER JOIN escapeGame
+      ON booking.escape_id = escapeGame.id_escape
+    WHERE booking.user_id = ?
+    ORDER BY booking.hours_selected ASC
+  `;
+  const [rows] = await bdd.query(sql, [user_id]);
+  return rows;
+};

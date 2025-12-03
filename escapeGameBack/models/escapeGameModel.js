@@ -11,9 +11,11 @@ export const getAllEscapes = async () => {
          price_escape,
          location,
          photo_escape,
-         video
+         video,
+         tags
   FROM escapeGame;
 `;
+
   const [response] = await bdd.query(InfoEscapes);
   return response;
 };
@@ -68,7 +70,7 @@ export const createEscape = async ({
   ];
 
   const [response] = await bdd.query(addEscape, params);
-  return response; 
+  return response;
 };
 
 
