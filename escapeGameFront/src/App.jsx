@@ -6,7 +6,7 @@ import PageRGPD from './Pages/PageRGPD'
 import PageAdmin from './Pages/PageAdmin'
 import PageInscription from './Pages/PageInscription.jsx'
 import PageConnexion from './Pages/PageConnexion.jsx'
-import PageCatalogue from './Pages/PageCatalogue';
+import PageCatalogue from './Pages/PageCatalogue.jsx';
 import { Route, Routes } from "react-router-dom";
 import PageEscapeDetail from './Pages/PageEscapeDetail';
 import PageSupport from './Pages/PageSupport.jsx';

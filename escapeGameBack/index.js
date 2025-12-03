@@ -9,6 +9,7 @@ import escapeGameRoutes from './routes/escapeGameRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import feedbackRoutes from './routes/feedbackRoutes.js'
 import session from 'express-session';
+import supportRoutes from "./routes/supportRoutes.js";
 
 
 dotenv.config();
@@ -33,8 +34,10 @@ bookingRoutes,
 escapeGameRoutes, 
 paymentRoutes,
 feedbackRoutes, 
+supportRoutes
 
 );
+
 
 
 
