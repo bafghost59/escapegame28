@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import connexion from '../Pages/PageConnexion';
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const links = [
         { name: "Accueil", to: "/" },
@@ -62,6 +64,7 @@ export default function Navbar() {
                         href="#"
                         className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
                         aria-label="Connexion"
+                        onClick={() => navigate('/connexion')}
                     >
                         Connexion
                     </a>
@@ -106,13 +109,14 @@ export default function Navbar() {
                     ))}
 
                     <li className="pt-6">
-                        <a
+                        <button
                             href="#"
-                            onClick={() => setOpen(false)}
+                            
+                            onClick={() => navigate('/connexion')}
                             className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
                         >
                             Connexion
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>
