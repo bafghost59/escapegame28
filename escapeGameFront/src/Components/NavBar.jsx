@@ -57,7 +57,7 @@ export default function Navbar() {
                 </ul>
 
                 {/* BOUTON CONNEXION DESKTOP */}
-                <div className="hidden md:flex items-center gap-4">
+                <div className="hidden md:flex items-center gap-4 under">
                     <a
                         href="#"
                         className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"

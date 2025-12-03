@@ -1,4 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-opensans text-[#EAEAEA] bg-[#1E1E2F];
+  }
+
+  h1 {
+    @apply font-montserrat font-bold text-[36px] text-white;
+  }
+
+  h2 {
+    @apply font-montserrat font-semibold text-[28px] text-[#F5A623];
+  }
+
+  button {
+    @apply font-roboto font-bold text-[18px] text-white;
+  }
+}
