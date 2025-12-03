@@ -6,31 +6,34 @@ import PageRGPD from './Pages/PageRGPD'
 import PageAdmin from './Pages/PageAdmin'
 import PageInscription from './Pages/PageInscription.jsx'
 import PageConnexion from './Pages/PageConnexion.jsx'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PageCatalogue from './Pages/PageCatalogue';
+import { Route, Routes } from "react-router-dom";
+import PageEscapeDetail from './Pages/PageEscapeDetail';
+
 
 function App() {
-  return  <>
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-[#1E1E2F]">
-        <Navbar />
+  return <>
+    <div className="min-h-screen flex flex-col bg-[#1E1E2F]">
+      <Navbar />
 
-        <main className="flex-1 flex">
-          <Routes>
-            {/* Page d'accueil */}
-            <Route path="/" element={<PageAccueil />} />
-            <Route path="/cgu" element={<PageCGU />} />
-            <Route path="/rgpd" element={<PageRGPD />} />
-            <Route path="/admin" element={<PageAdmin />} />
-            <Route path="/inscription" element={<PageInscription />} />
-            <Route path="/connexion" element={<PageConnexion />} />
-          </Routes>
-        </main>
+      <main className="flex-1 flex">
+        <Routes>
+          <Route path="/" element={<PageAccueil />} />
+          <Route path="/catalogue" element={<PageCatalogue />} />
+          <Route path="/cgu" element={<PageCGU />} />
+          <Route path="/rgpd" element={<PageRGPD />} />
+          <Route path="/admin" element={<PageAdmin />} />
+          <Route path="/inscription" element={<PageInscription />} />
+          <Route path="/connexion" element={<PageConnexion />} />
+          <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
+        </Routes>
+      </main>
 
-        <FooterEscapeGame />
-      </div>
-    </BrowserRouter>
-    </>
-  
+      <FooterEscapeGame />
+    </div>
+  </>
+
 }
 
-export default App
+export default App;
+

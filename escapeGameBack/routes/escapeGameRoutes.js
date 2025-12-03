@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/escapes',  escapeGameController.getAllEscapesController);
 router.get('/escapes/light', verifyToken, escapeGameController.getEscapesLightController);
-router.get('/escapes/:id', verifyToken, escapeGameController.getEscapeByIdController);
+router.get('/escapes/:id', escapeGameController.getEscapeByIdController);
 router.post('/escapes', verifyToken, escapeGameController.createEscapeController);
 router.put('/escapes/:id', verifyToken, escapeGameController.updateEscapeController);
 router.delete('/escapes/:id', verifyToken, escapeGameController.deleteEscapeController);

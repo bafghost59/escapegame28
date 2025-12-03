@@ -3,8 +3,17 @@ import bdd from '../config/bdd.js';
 
 export const getAllEscapes = async () => {
   const InfoEscapes = `
-    SELECT id_escape, title, 'describe', duration, difficult, price_escape, location, photo_escape, video FROM escapeGame;
-  `;
+  SELECT id_escape,
+         title,
+         \`describe\`,
+         duration,
+         difficult,
+         price_escape,
+         location,
+         photo_escape,
+         video
+  FROM escapeGame;
+`;
   const [response] = await bdd.query(InfoEscapes);
   return response;
 };
