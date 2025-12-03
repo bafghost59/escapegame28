@@ -60,3 +60,4 @@ app.get("/test", (req, res) => {
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`L'API est lancé sur http://localhost:${process.env.SERVER_PORT}`);  
 })
+

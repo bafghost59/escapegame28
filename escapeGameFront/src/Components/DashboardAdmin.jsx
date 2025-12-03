@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
+import PageAdmin from "../Services/PageAdmin";
 
 function Dashboard() {
     const [reservations, setReservations] = useState([]);
 
     // Appel de l'API pour récupérer les réservations
     useEffect(() => {
-        fetch("http://localhost:5000/bookings/details")
-            .then(res => res.json())
-            .then(data => setReservations(data))
-             .catch(err => console.error(err));
+        async function fetchReservations() {
+            try {
+                const data = await PageAdmin.fetchPageAdmin();
+                setReservations(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchReservations();
     }, []);
 
 
     return (
-        <div className="p-6 text-white">
+        <div className="w-full p-6 text-white">
             <h1 className="text-3xl font-bold mb-6">Tableau de bord Admin</h1>
 
             <div className="bg-white text-black rounded-xl shadow p-4 overflow-x-auto">
