@@ -5,7 +5,7 @@ import {
   getAccountById,
   updateAccount,
   deleteAccount,
-  getAccountByLogin,
+  getAccountByLogin
 } from '../models/accountModel.js';
 
 import bcrypt from 'bcryptjs';
@@ -45,6 +45,19 @@ export const getAllAccountsController = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
+export const getAccountByLoginController = async (req, res) => {
+
+    const { login } = req.body;
+   
+    try {
+        const accountByLogin = await getAccountByLogin(login);
+        console.log(accountByLogin);
+        res.status(200).json(accountByLogin);
+    } catch (error) {
+    console.error("une erreur est survenue", error); 
+    }
+}
 
 export const getAccountByIdController = async (req, res) => {
   try {

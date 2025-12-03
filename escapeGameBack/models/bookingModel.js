@@ -111,11 +111,6 @@ export const checkAvailability = async (hours_selected, escape_id) => {
   return rows.length > 0;
 };
 
-const alreadyTaken = await checkAvailability(hours_selected, escape_id);
-
-if (alreadyTaken) {
-  return res.status(409).json({ message: "Créneau déjà réservé" });
-}
 
 export const getBookingsByUserId = async (user_id) => {
   const sql = `
