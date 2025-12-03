@@ -9,7 +9,7 @@ import PageConnexion from './Pages/PageConnexion.jsx'
 import PageCatalogue from './Pages/PageCatalogue';
 import { Route, Routes } from "react-router-dom";
 import PageEscapeDetail from './Pages/PageEscapeDetail';
-
+import PageReservationOne from './Pages/PageReservationOne.jsx';
 
 function App() {
   return <>
@@ -26,6 +26,7 @@ function App() {
           <Route path="/inscription" element={<PageInscription />} />
           <Route path="/connexion" element={<PageConnexion />} />
           <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
+          <Route path="/reservation/:id" element={<PageReservationOne />} />
         </Routes>
       </main>
 

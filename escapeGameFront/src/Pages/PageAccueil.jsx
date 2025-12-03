@@ -1,10 +1,9 @@
-import Navbar from "../Components/NavBar";
 import Carrousel from "../Components/Carroussel";
 import HeroHeaderImage from "../assets/HERO HEADER.png";
 
 function PageAccueil() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]">
+    <div className="flex flex-col min-h-screen w-full bg-[#1E1E2F] text-[#EAEAEA]">
       {/* Supprimer les soulignements de tous les liens dans cette page car ça ne faisait pas propre*/}
       <style>
         {`

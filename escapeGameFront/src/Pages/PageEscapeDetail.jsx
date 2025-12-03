@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getEscapeById } from "../Services/PageCatalogue";
+import { Link } from "react-router-dom";
 
 function difficultyToLabel(difficult) {
   if (difficult === "easy") return "Facile";
@@ -60,6 +61,13 @@ export default function PageEscapeDetail() {
     );
   }
 
+  const tags =
+    typeof escape.tags === "string"
+      ? escape.tags.split(",").map((t) => t.trim()).filter(Boolean)
+      : Array.isArray(escape.tags)
+        ? escape.tags
+        : [];
+
   return (
     <div className="w-full bg-[#1E1E2F] text-[#EAEAEA] px-8 py-10">
       <div className="max-w-5xl mx-auto grid gap-8 md:grid-cols-2">
@@ -69,11 +77,10 @@ export default function PageEscapeDetail() {
             alt={escape.title}
             className="w-full h-80 object-cover rounded-lg border border-[#4A90E2]"
           />
-          {/* Si tu as une vidéo teaser côté API, tu peux l'afficher ici */}
-          {escape.video_teaser && (
+          {escape.video && (
             <video
               controls
-              src={escape.video_teaser}
+              src={escape.video}
               className="mt-4 w-full rounded-lg"
             />
           )}
@@ -85,13 +92,15 @@ export default function PageEscapeDetail() {
           </h1>
           <p className="text-sm mb-4">{escape.location}</p>
 
-          <div className="flex flex-wrap gap-2 text-sm mb-4">
+          <div className="flex flex-col items-start gap-2 text-sm mb-4">
             <span className="rounded-full border border-[#F5A623] px-3 py-1 text-[#F5A623]">
               {difficultyToLabel(escape.difficult)}
             </span>
             <span>{durationToLabel(escape.duration)}</span>
-            {escape.nb_players && (
-              <span>{escape.nb_players} joueurs</span>
+            {escape.min_players && escape.max_players && (
+              <span>
+                {escape.min_players}–{escape.max_players} joueurs
+              </span>
             )}
             <span>
               Prix :{" "}
@@ -105,14 +114,13 @@ export default function PageEscapeDetail() {
             {escape.describe}
           </p>
 
-          {/* Si tu as des tags dans ton API */}
-          {Array.isArray(escape.tags) && escape.tags.length > 0 && (
+          {tags.length > 0 && (
             <div className="mb-4">
               <h2 className="text-lg font-semibold text-[#F5A623] mb-2">
                 Thèmes / Tags
               </h2>
               <div className="flex flex-wrap gap-2">
-                {escape.tags.map((tag) => (
+                {tags.map((tag) => (
                   <span
                     key={tag}
                     className="text-xs px-2 py-1 bg-[#2C2C3A] rounded-full border border-[#4A90E2]"
@@ -123,12 +131,15 @@ export default function PageEscapeDetail() {
               </div>
             </div>
           )}
-
-          <button className="mt-4 rounded-md bg-[#F5A623] px-6 py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors">
+          <Link
+            to={`/reservation/${escape.id_escape}`}
+            className="inline-block mt-4 rounded-md bg-[#F5A623] px-6 py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors"
+          >
             Réserver ce jeu
-          </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+

@@ -47,7 +47,7 @@ export default function Navbar() {
                         <li key={link.name}>
                             <Link
                                 to={link.to}
-                                className="text-[#CCCCCC] transition-colors duration-200 hover:text-[#F5A623]"
+                                className="text-[#CCCCCC] no-underline transition-colors duration-200 hover:text-[#F5A623]"
                                 aria-label={link.name}
                             >
                                 {link.name}
@@ -57,10 +57,10 @@ export default function Navbar() {
                 </ul>
 
                 {/* BOUTON CONNEXION DESKTOP */}
-                <div className="hidden md:flex items-center gap-4 under">
+                <div className="hidden md:flex items-center gap-4">
                     <a
                         href="#"
-                        className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+                        className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white no-underline transition-all duration-300 hover:bg-[#357ABD]"
                         aria-label="Connexion"
                     >
                         Connexion
@@ -98,7 +98,7 @@ export default function Navbar() {
                             <Link
                                 to={link.to}
                                 onClick={() => setOpen(false)}
-                                className="block text-[#EAEAEA] text-lg transition-colors duration-200 hover:text-[#F5A623]"
+                                className="block text-[#EAEAEA] text-lg no-underline transition-colors duration-200 hover:text-[#F5A623]"
                             >
                                 {link.name}
                             </Link>
@@ -109,7 +109,7 @@ export default function Navbar() {
                         <a
                             href="#"
                             onClick={() => setOpen(false)}
-                            className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+                            className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white no-underline transition-all duration-300 hover:bg-[#357ABD]"
                         >
                             Connexion
                         </a>
@@ -119,5 +119,6 @@ export default function Navbar() {
         </header>
     );
 }
+
 
 
