@@ -31,7 +31,7 @@ export default function FormulaireConnexion() {
         <form className="max-w-sm mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg" onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              type="email"
+              type="text"
               name="login"
               id="login"
               className="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:border-[#F5A623] peer"

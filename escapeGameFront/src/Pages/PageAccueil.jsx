@@ -4,7 +4,7 @@ import HeroHeaderImage from "../assets/HERO HEADER.png";
 
 function PageAccueil() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]">
+    <div className="flex w-full flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]">
       {/* Supprimer les soulignements de tous les liens dans cette page car ça ne faisait pas propre*/}
       <style>
         {`
@@ -17,7 +17,7 @@ function PageAccueil() {
 
       {/* Hero Header */}
       <section
-        className="relative w-full h-[500px] md:h-[600px] flex flex-col items-center justify-center text-center px-4 md:px-0"
+        className="relative w-full h-[900px] md:h-[1200px] flex flex-col items-center justify-center text-center px-4 md:px-0"
         style={{
           backgroundImage: `url(${HeroHeaderImage})`,
           backgroundSize: "cover",
