@@ -1,17 +1,18 @@
-export async function sendSupportMessage(formData) {
-    try {
-        const response = await fetch("http://localhost:3000/support", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData)
-        });
+import axios from "axios";
 
-        return await response.json();
-        
-    } catch (error) {
-        console.error("Erreur API Support :", error);
-        throw error;
-    }
+// Envoi du message support
+function sendSupportMessage({ user_id, booking_id = null, subject, message }) {
+    return axios.post("http://localhost:3000/support", {
+        user_id,
+        booking_id,
+        subject,
+        message
+    })
+    .then(res => res.data)
+    .catch(err => {
+        console.error("Erreur API Support :", err.response || err.message);
+        throw err;
+    });
 }
+
+export default { sendSupportMessage };
