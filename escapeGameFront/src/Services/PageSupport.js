@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Envoi du message support
 function sendSupportMessage({ user_id, booking_id = null, subject, message }) {
-    return axios.post("http://localhost:3000/support", {
+    return axios.post("http://localhost:3000/api/support", {
         user_id,
         booking_id,
         subject,

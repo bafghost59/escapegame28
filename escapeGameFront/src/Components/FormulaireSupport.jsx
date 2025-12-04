@@ -20,14 +20,6 @@ export default function FormulaireSupport() {
      const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const result = await sendSupportMessage(formData);
-            console.log(result);
-            alert("Message envoyé !");
-        } catch (error) {
-            alert("Erreur lors de l'envoi.");
-    };
-
      const mappedData = {
             user_id: 1,                      
             subject: formData.sujet,
