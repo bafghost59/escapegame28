@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import PageSupport from "../Services/PageSupport";
 
 export default function FormulaireSupport() {
 
@@ -25,6 +25,22 @@ export default function FormulaireSupport() {
             console.log(result);
             alert("Message envoyé !");
         } catch (error) {
+            alert("Erreur lors de l'envoi.");
+    };
+
+     const mappedData = {
+            user_id: 1,                      
+            subject: formData.sujet,
+            message: formData.message,
+            booking_id: null
+        };
+
+        try {
+            const result = await PageSupport.sendSupportMessage(mappedData);
+            console.log(result);
+            alert("Message envoyé !");
+        } catch (error) {
+            console.error(error);
             alert("Erreur lors de l'envoi.");
         }
     };
@@ -130,4 +146,4 @@ export default function FormulaireSupport() {
             </main>
         </>
     );
-}
+}   

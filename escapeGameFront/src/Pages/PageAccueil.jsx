@@ -1,4 +1,3 @@
-import Navbar from "../Components/NavBar";
 import Carrousel from "../Components/Carroussel";
 import HeroHeaderImage from "../assets/HERO HEADER.png";
 
