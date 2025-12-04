@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InscriptionService from "../Services/InscriptionService";
+import { useNavigate } from "react-router-dom";
 
 export default function FormulaireInscription() {
   const [pseudo, setPseudo] = useState("");
@@ -11,6 +12,7 @@ export default function FormulaireInscription() {
   const [adress, setAdress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -197,6 +199,12 @@ export default function FormulaireInscription() {
               >
                 Entrez dans l'aventure !
               </button>
+                            <p
+                onClick={() => { navigate('/connexion'); }}
+                className="underline cursor-pointer mt-6 text-blue-700 text-center"
+              >
+                Déjà un compte ? Se connecter
+              </p>
             </form>
           </div>
         </div>

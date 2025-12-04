@@ -10,6 +10,7 @@ import PageCatalogue from './Pages/PageCatalogue.jsx';
 import { Route, Routes } from "react-router-dom";
 import PageEscapeDetail from './Pages/PageEscapeDetail';
 import PageSupport from './Pages/PageSupport.jsx';
+import PageForgetMdp from './Pages/PageForgetMdp.jsx'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/rgpd" element={<PageRGPD />} />
           <Route path="/admin" element={<PageAdmin />} />
           <Route path="/inscription" element={<PageInscription />} />
+          <Route path="/forgotPassword" element={<PageForgetMdp />} />
           <Route path="/connexion" element={<PageConnexion />} />
           <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
           <Route path='/support' element={<PageSupport/>} />
