@@ -8,8 +8,9 @@ function Dashboard() {
     useEffect(() => {
         async function fetchReservations() {
             try {
-                const data = await PageAdmin.fetchPageAdmin();
-                setReservations(data);
+                const response = await PageAdmin.fetchPageAdmin();
+                console.log(response.data)
+                setReservations(response.data);
             } catch (error) {
                 console.error(error);
             }
