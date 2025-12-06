@@ -6,7 +6,8 @@ import {
   createBooking,
   updateBooking,
   deleteBooking,
-  checkAvailability
+  checkAvailability,
+  getBookingsByUserId
 } from '../models/bookingModel.js';
 
 
@@ -36,11 +37,11 @@ export const getBookingByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     const booking = await getBookingById(id);
-
+    
     if (!booking) {
       return res.status(404).json({ message: 'Réservation non trouvée' });
     }
-
+    
     res.json(booking);
   } catch (error) {
     console.error(error);
@@ -58,15 +59,15 @@ export const createBookingController = async (req, res) => {
       user_id,
       escape_id,
     } = req.body;
-
+    
     if (!date_booking || !hours_selected || !user_id || !escape_id) {
       return res
-        .status(400)
-        .json({ message: 'date_booking, hours_selected, user_id, escape_id sont requis' });
+      .status(400)
+      .json({ message: 'date_booking, hours_selected, user_id, escape_id sont requis' });
     }
-
+    
     const alreadyTaken = await checkAvailability(hours_selected, escape_id);
-
+    
     if (alreadyTaken) {
       return res.status(409).json({ message: "Créneau déjà réservé" });
     }
@@ -78,7 +79,7 @@ export const createBookingController = async (req, res) => {
       user_id,
       escape_id,
     });
-
+    
     res.status(201).json({
       message: 'Réservation créée',
       id_booking: result.insertId,
@@ -100,7 +101,7 @@ export const updateBookingController = async (req, res) => {
       user_id,
       escape_id,
     } = req.body;
-
+    
     const result = await updateBooking(id, {
       date_booking,
       hours_selected,
@@ -108,7 +109,7 @@ export const updateBookingController = async (req, res) => {
       user_id,
       escape_id,
     });
-
+    
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Réservation non trouvée' });
     }
@@ -124,14 +125,25 @@ export const updateBookingController = async (req, res) => {
 export const deleteBookingController = async (req, res) => {
   try {
     const { id } = req.params;
-
+    
     const result = await deleteBooking(id);
-
+    
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Réservation non trouvée' });
     }
-
+    
     res.json({ message: 'Réservation supprimée' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const getAllBookingsByAccountIdController = async (req, res) => {
+  try {
+    const { id_account } = req.params;
+    const bookingsAccountId = await getBookingsByUserId(id_account);
+    res.json(bookingsAccountId);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });

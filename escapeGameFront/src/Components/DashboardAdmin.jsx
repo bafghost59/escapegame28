@@ -40,7 +40,7 @@ function Dashboard() {
                     <tbody>
                         {reservations.map((reservation) => (
                             <tr key={reservation.id_booking} className="border-b hover:bg-gray-50">
-                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.userId}</td>
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.id_booking}</td>
                                 <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.lastname}</td>
                                 <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.firstname}</td>
                                 <td className="hidden md:table-cell px-4 py-2 text-center">{reservation.email}</td>

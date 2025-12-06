@@ -112,15 +112,21 @@ export const checkAvailability = async (hours_selected, escape_id) => {
 };
 
 
-export const getBookingsByUserId = async (user_id) => {
+export const getBookingsByUserId = async (id_account) => {
   const sql = `
-    SELECT booking.*, escapeGame.title, escapeGame.location
-    FROM booking
-    INNER JOIN escapeGame
-      ON booking.escape_id = escapeGame.id_escape
-    WHERE booking.user_id = ?
-    ORDER BY booking.hours_selected ASC
-  `;
-  const [rows] = await bdd.query(sql, [user_id]);
+ SELECT
+  booking.*,
+  escapeGame.title,
+  escapeGame.location,
+  escapeGame.photo_escape
+FROM booking
+INNER JOIN users
+  ON booking.user_id = users.id_user
+INNER JOIN escapeGame
+  ON booking.escape_id = escapeGame.id_escape
+WHERE users.account_id = ?
+ORDER BY booking.hours_selected ASC;
+`;
+  const [rows] = await bdd.query(sql, [id_account]);
   return rows;
 };
