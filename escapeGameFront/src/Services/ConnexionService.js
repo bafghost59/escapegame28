@@ -7,6 +7,8 @@ function ConnexionUser(login, password) {
         login,
         password
     })
+
+
 }
 
 export default {ConnexionUser};

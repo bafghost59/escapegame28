@@ -5,7 +5,7 @@ import PageInscription from "../Pages/PageInscription.jsx";
 
 
 export default function FormulaireConnexion() {
-    
+    const id = localStorage.getItem("user_id");
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -14,7 +14,17 @@ export default function FormulaireConnexion() {
     e.preventDefault();
     try {
       const response = await ConnexionService.ConnexionUser(login, password);
-      console.log(response.data)
+      const userId = response.data.loginInDbId;
+      if (response.data) {
+        console.log("LOGIN response.data :", response.data);
+        console.log("user dans login :", userId);
+        localStorage.setItem('user_id', userId);
+        if (userId === 6 ) {
+          navigate('/admin');
+        } else {
+          navigate('/Profil');
+        }
+      }
     } catch (error) {
       console.error("Identifiant ou mot de passe incorrect", error);
       alert("Identifiant ou mot de passe incorrect", error);
