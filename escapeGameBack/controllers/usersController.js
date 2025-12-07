@@ -97,7 +97,15 @@ export const updateUserController = async (req, res) => {
       postal_code,
       city,
       role,
+      login,
+      password, 
     } = req.body;
+
+    let hashedPassword = null;
+
+    if (password && password.trim() !== "") {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
 
     const result = await updateUser(id, {
       lastname,
@@ -107,16 +115,19 @@ export const updateUserController = async (req, res) => {
       postal_code,
       city,
       role,
+      login,
+      password: hashedPassword, // peut être null, dans ce cas non mis à jour
     });
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+ 
+    if (!result.resultUser || result.resultUser.affectedRows === 0) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    res.json({ message: 'Utilisateur mis à jour' });
+    res.json({ message: "Utilisateur mis à jour" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur' });
+    console.error("updateUserController error:", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 

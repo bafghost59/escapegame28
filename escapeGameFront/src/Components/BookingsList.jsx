@@ -26,7 +26,7 @@ fetchBookings();
 
   return ( <>
 
-    <h1 className=" text-gray-700 dark:text-gray-300 text-center">Réservation</h1>
+    <h1 className=" text-gray-700 dark:text-gray-300 text-center">Mes Réservations</h1>
   <div className="flex flex-wrap gap-3 justify-center md:justify-start mt-5">
     {bookings.map((booking) => {
         return <BookingCard booking={booking} key={booking.id_booking} />
