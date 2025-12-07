@@ -1,5 +1,6 @@
 const Notifications = () => {
-    return (  );
+    return (<>
+    </>);
 }
  
 export default Notifications;

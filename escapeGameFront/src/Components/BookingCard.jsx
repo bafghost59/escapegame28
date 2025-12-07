@@ -3,6 +3,18 @@ import { useParams } from "react-router-dom";
 
 export default function BookingCard ({booking}) {
 
+const isoString = "2025-01-10T13:00:00.000Z";
+
+const dateObj = new Date(isoString);
+
+const dateFr = dateObj.toLocaleDateString("fr-FR"); 
+
+const heureFr = dateObj.toLocaleTimeString("fr-FR", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+
 
 
   return (
@@ -25,14 +37,24 @@ export default function BookingCard ({booking}) {
         {new Date(booking.date_booking).toLocaleDateString("fr-FR")}
       </span>
     </p>
+    <p>
+      <span className="font-medium text-gray-500 dark:text-gray-400">
+        Prix de la prestation
+      </span>
+      <br />
+      <span className="font-semibold">
+        {booking.price_escape}
+      </span>
+    </p>
 
     <p>
       <span className="font-medium text-gray-500 dark:text-gray-400">
         Date sélectionnée
       </span>
       <br />
-      <span className="font-semibold">
-        {booking.hours_selected}
+     <span className="flex font-semibold">
+        Date : {dateFr} <br/>
+        Heure : {heureFr}
       </span>
     </p>
 
