@@ -11,7 +11,7 @@ export default function Navbar() {
     const links = [
         { name: "Accueil", to: "/" },
         { name: "Catalogue", to: "/catalogue" },
-        { name: "Réservations", to: "#" },
+        { name: "Réserver", to: "#" },
         { name: "À propos", to: "#" },
         { name: "Contact", to: "#" },
     ];
