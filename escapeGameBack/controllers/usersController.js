@@ -15,12 +15,23 @@ export const getUsers = async (req, res) => {
   }
 };
 
-export const getInfoUser = async (req, res) => {
+export const getUserInfoByAccountId = async (req, res) => {
+  const { id_account } = req.params; 
+
   try {
-    const infoUser = await usersModel.getInfoUser();
-    res.status(200).json(infoUser);
+    const user = await usersModel.getInfoUserById(id_account);
+
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    return res.status(200).json({
+      message: "Informations utilisateur récupérées avec succès",
+      user,
+    });
   } catch (error) {
-    console.error("Une erreur est survenue", error);
+    console.error("Erreur getUserInfoByAccountId :", error);
+    return res.status(500).json({ error: "Erreur serveur" });
   }
 };
 

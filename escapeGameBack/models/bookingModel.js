@@ -114,10 +114,11 @@ export const checkAvailability = async (hours_selected, escape_id) => {
 
 export const getBookingsByUserId = async (id_account) => {
   const sql = `
- SELECT
+SELECT
   booking.*,
   escapeGame.title,
   escapeGame.location,
+  escapeGame.price_escape,
   escapeGame.photo_escape
 FROM booking
 INNER JOIN users

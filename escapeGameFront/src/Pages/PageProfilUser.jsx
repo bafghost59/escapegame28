@@ -1,8 +1,11 @@
 import { useState } from "react";
 import  BookingsList  from "../Components/BookingsList.jsx";
 import  FeedbackList  from "../Components/FeedbackList.jsx";
-import Profil from "../Components/Profil.jsx";
+
 import SidebarClient from "../Components/Sidebar.jsx";
+import ProfilList from "../Components/ProfilList.jsx";
+import ProfilUser from "../Components/Profil.jsx";
+import Notifications from '../Components/Notifications.jsx'
 
 
 
@@ -12,13 +15,13 @@ export default function PageProfilUser () {
 
     let contenu;
 
-      if (ongletActif === "profil") {
-    contenu = <Profil />;         
-  } else if (ongletActif === "notifications") {
+      if (ongletActif === "Profil") {
+    contenu = <ProfilList />;         
+  } else if (ongletActif === "Notifications") {
     contenu = <Notiications />;   
   } else if (ongletActif === "Reservations") {
     contenu = <BookingsList />;           
-  } else if (ongletActif === "avis") {
+  } else if (ongletActif === "Avis") {
     contenu = <FeedbackList />;      
   }
     

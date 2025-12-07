@@ -9,10 +9,20 @@ export const getAllUsers = async () => {
   return response;
 };
 
-export const getInfoUser = async () => {
-  const selectInfoUser = "SELECT lastname, firstname, email, role  from users;";
+export const getInfoUserById = async (id_account) => {
+  const selectInfoUser = ` SELECT id_user,
+      lastname,
+      firstname,
+      email,
+      adress,
+      postal_code,
+      city,
+      role,
+      created_at
+    FROM users
+    WHERE account_id = ?`;
 
-  const [response] = await bdd.query(selectInfoUser);
+  const [response] = await bdd.query(selectInfoUser, [id_account]);
 
   return response;
 };
