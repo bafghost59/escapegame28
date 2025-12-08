@@ -6,6 +6,7 @@ import {
   createBooking,
   updateBooking,
   deleteBooking,
+  checkAvailability,
 } from '../models/bookingModel.js';
 
 
@@ -62,6 +63,12 @@ export const createBookingController = async (req, res) => {
       return res
         .status(400)
         .json({ message: 'date_booking, hours_selected, user_id, escape_id sont requis' });
+    }
+
+    const alreadyTaken = await checkAvailability(hours_selected, escape_id);
+
+    if (alreadyTaken) {
+      return res.status(409).json({ message: "Créneau déjà réservé" });
     }
 
     const result = await createBooking({
