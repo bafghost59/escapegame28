@@ -4,7 +4,7 @@ import Logo from "../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import connexion from '../Pages/PageConnexion';
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -24,6 +24,18 @@ export default function Navbar() {
         }
         return () => (document.body.style.overflow = "auto");
     }, [open]);
+
+      const handleLogout = () => {
+    
+    localStorage.removeItem("account_id");
+    localStorage.removeItem("user_id");
+    setIsLoggedIn(false);
+    navigate("/connexion"); 
+  };
+
+    const handleLoginClick = () => {
+    navigate("/connexion");
+  };
 
     return (
         <header className="sticky top-0 z-50 w-full bg-[#1E1E2F] shadow-lg">
@@ -59,16 +71,27 @@ export default function Navbar() {
                 </ul>
 
                 {/* BOUTON CONNEXION DESKTOP */}
-                <div className="hidden md:flex items-center gap-4 under">
-                    <a
-                        href="#"
-                        className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
-                        aria-label="Connexion"
-                        onClick={() => navigate('/connexion')}
-                    >
-                        Connexion
-                    </a>
-                </div>
+
+  <div className="hidden md:flex items-center gap-4">
+    {isLoggedIn ? (
+      <button
+        onClick={handleLogout}
+        className="rounded-2xl bg-red-600 px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-red-500"
+        aria-label="Se déconnecter"
+      >
+        Se déconnecter
+      </button>
+    ) : (
+      <button
+        onClick={handleLoginClick}
+        className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+        aria-label="Connexion"
+      >
+        Connexion
+      </button>
+    )}
+  </div>
+
 
                 {/* HAMBURGER MOBILE */}
                 <button
@@ -108,16 +131,30 @@ export default function Navbar() {
                         </li>
                     ))}
 
-                    <li className="pt-6">
-                        <button
-                            href="#"
-                            
-                            onClick={() => navigate('/connexion')}
-                            className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
-                        >
-                            Connexion
-                        </button>
-                    </li>
+                  <li className="pt-6">
+  {isLoggedIn ? (
+    <button
+      onClick={() => {
+        handleLogout();
+        setOpen(false);
+      }}
+      className="inline-block w-full rounded-2xl bg-red-600 px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-red-500"
+    >
+      Se déconnecter
+    </button>
+  ) : (
+    <button
+      onClick={() => {
+        handleLoginClick();
+        setOpen(false);
+      }}
+      className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+    >
+      Connexion
+    </button>
+  )}
+</li>
+
                 </ul>
             </div>
         </header>

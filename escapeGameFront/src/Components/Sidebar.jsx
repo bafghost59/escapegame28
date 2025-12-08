@@ -6,6 +6,8 @@ import {
 } from "flowbite-react";
 import { HiShoppingBag, HiUser, HiViewBoards } from "react-icons/hi";
 import { MdFeedback } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SidebarClient({
   ongletActif,
@@ -13,9 +15,18 @@ export default function SidebarClient({
   openMobile,
   setOpenMobile,
 }) {
+  const navigate = useNavigate();
   const handleSelect = (onglet) => {
     setOngletActif(onglet);
     setOpenMobile(false);
+  };
+
+       const handleLogout = () => {
+    
+    localStorage.removeItem("account_id");
+    localStorage.removeItem("user_id");
+
+    navigate("/connexion"); 
   };
 
   const sidebarContent = (
@@ -68,6 +79,13 @@ export default function SidebarClient({
             className="cursor-pointer hover:bg-slate-800/70"
           >
             Documentation
+          </SidebarItem>
+          <SidebarItem
+            icon={CiLogout}
+            className="cursor-pointer hover:bg-slate-800/70"
+            onClick={() => handleLogout()}
+          >
+            Se déconnecter
           </SidebarItem>
         </SidebarItemGroup>
       </SidebarItems>

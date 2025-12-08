@@ -12,13 +12,21 @@ import PageEscapeDetail from './Pages/PageEscapeDetail';
 import PageSupport from './Pages/PageSupport.jsx';
 import PageForgetMdp from './Pages/PageForgetMdp.jsx'
 import PageProfilUser from './Pages/PageProfilUser.jsx'
+import { useState } from 'react'
 
 
 
 function App() {
+
+const [isLoggedIn, setIsLoggedIn] = useState(
+  !!localStorage.getItem("account_id") || !!localStorage.getItem("user_id")
+);
+
+
+
   return <>
     <div className="min-h-screen flex flex-col bg-[#1E1E2F]">
-      <Navbar />
+   <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <main className="flex-1 flex">
         <Routes>
@@ -29,7 +37,7 @@ function App() {
           <Route path="/admin" element={<PageAdmin />} />
           <Route path="/inscription" element={<PageInscription />} />
           <Route path="/forgotPassword" element={<PageForgetMdp />} />
-          <Route path="/connexion" element={<PageConnexion />} />
+          <Route path="/connexion" element={<PageConnexion setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/Profil" element={<PageProfilUser />} />
           <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
           <Route path='/support' element={<PageSupport/>} />
