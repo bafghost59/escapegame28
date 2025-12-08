@@ -21,14 +21,6 @@ export default function SidebarClient({
     setOpenMobile(false);
   };
 
-       const handleLogout = () => {
-    
-    localStorage.removeItem("account_id");
-    localStorage.removeItem("user_id");
-
-    navigate("/connexion"); 
-  };
-
   const sidebarContent = (
     <Sidebar
       aria-label="Espace client sidebar"
@@ -79,13 +71,6 @@ export default function SidebarClient({
             className="cursor-pointer hover:bg-slate-800/70"
           >
             Documentation
-          </SidebarItem>
-          <SidebarItem
-            icon={CiLogout}
-            className="cursor-pointer hover:bg-slate-800/70"
-            onClick={() => handleLogout()}
-          >
-            Se déconnecter
           </SidebarItem>
         </SidebarItemGroup>
       </SidebarItems>
