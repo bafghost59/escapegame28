@@ -19,7 +19,7 @@ export default function PageProfilUser() {
   }
 
   return (
-    <div className="flex min-h-screen  text-slate-50">
+    <div className="flex min-h-screen text-slate-50">
       {/* Sidebar desktop + drawer mobile */}
       <SidebarClient
         ongletActif={ongletActif}
@@ -28,9 +28,9 @@ export default function PageProfilUser() {
         setOpenMobile={setOpenMobileSidebar}
       />
 
-      {/* Colonne principale qui occupe 100% de la hauteur */}
-      <div className="flex flex-1 min-h-screen flex-col w-screen">
-        {/* HEADER MOBILE : burger à gauche + texte */}
+      {/* Colonne principale responsive */}
+      <div className="flex flex-1 min-h-screen flex-col">
+        {/* HEADER MOBILE : visible < md */}
         <header className="flex items-center gap-3 border-b border-slate-800 bg-slate-900 px-4 py-3 md:hidden">
           <button
             type="button"
@@ -42,14 +42,15 @@ export default function PageProfilUser() {
           <span className="text-base font-semibold">Espace client</span>
         </header>
 
-        {/* Contenu qui prend le reste de la hauteur */}
-        <main className="flex-1 p-6 md:p-6 overflow-y-auto">
+        {/* CONTENU : prend tout l'espace restant, scrollable si besoin */}
+        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-8 md:py-6">
           {contenu}
         </main>
       </div>
     </div>
   );
 }
+
 
 
  
