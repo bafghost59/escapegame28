@@ -11,6 +11,7 @@ router.get('/payments/:id', verifyToken, paymentController.getPaymentByIdControl
 router.post('/payments', verifyToken, paymentController.createPaymentController);
 router.put('/payments/:id', verifyToken, paymentController.updatePaymentController);
 router.delete('/payments/:id', verifyToken, paymentController.deletePaymentController);
-router.post("/payments/stripe/checkout-session", verifyToken, paymentController.createStripeCheckoutSession);
+router.post('/payments/stripe/checkout-session', verifyToken, paymentController.createStripeCheckoutSession);
+router.post('/payments/validate-promo', verifyToken, paymentController.validatePromoController);
 
 export default router;

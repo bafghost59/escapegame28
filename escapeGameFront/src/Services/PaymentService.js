@@ -7,6 +7,7 @@ export async function createStripeCheckoutSession({
   bookingId,
   total,
   escapeTitle,
+  promoCode,
 }) {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -15,7 +16,7 @@ export async function createStripeCheckoutSession({
 
   const response = await axios.post(
     `${API_BASE_URL}/payments/stripe/checkout-session`,
-    { bookingId, total, escapeTitle },
+    { bookingId, total, escapeTitle, promoCode },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -25,5 +26,26 @@ export async function createStripeCheckoutSession({
 
   return response.data; // { url }
 }
+
+export async function validatePromo({ total, promoCode }) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Utilisateur non authentifié");
+  }
+
+  const response = await axios.post(
+    `${API_BASE_URL}/payments/validate-promo`,
+    { total, promoCode },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data; // { finalTotal, discount, ... }
+}
+
+
 
 
