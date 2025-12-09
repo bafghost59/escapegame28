@@ -23,15 +23,11 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
           login: response.data.login,
           token: response.data.token,
         };
-
-        
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("user_id", userId);
         localStorage.setItem("token", response.data.token);
-       
         setIsLoggedIn(true);
         setUser(userData);
-
 
         if (userId === 6) {
           navigate("/admin");
