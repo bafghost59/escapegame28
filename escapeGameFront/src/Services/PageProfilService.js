@@ -16,5 +16,22 @@ function updateUser (id_account, formProfil) {
     return axios.put(`http://localhost:3000/api/updateUser/${id_account}`, formProfil)
 }
 
+function updateBooking (bookingId, data) {
+  return axios.put(`http://localhost:3000/api/bookings/${bookingId}`, data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+    }
+  });
 
-export default { getAllBookingsById, getAllInfoByUser, updateUser};
+}
+
+function deleteBooking(bookingId) {
+  return axios.delete(`http://localhost:3000/api/bookings/${bookingId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+    },
+  });
+}
+
+
+export default { getAllBookingsById, getAllInfoByUser, updateUser, updateBooking, deleteBooking};
