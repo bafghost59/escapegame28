@@ -1,5 +1,5 @@
 import { Card } from "flowbite-react";
-import { useParams } from "react-router-dom";
+
 
 export default function BookingCard ({booking}) {
 

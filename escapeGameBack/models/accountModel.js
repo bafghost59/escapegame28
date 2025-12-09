@@ -20,7 +20,10 @@ export const getAccountById = async (id_account) => {
 };
 
 export const getAccountByLogin = async (login) => {
-  const accountByLogin = 'SELECT * FROM account WHERE login = ?';
+  const accountByLogin = `SELECT account.*, users.firstname
+FROM account
+JOIN users ON users.account_id = account.id_account
+WHERE account.login = ?`;
   const [response] = await bdd.query(accountByLogin, [login]);
   return response[0] || null;
 };

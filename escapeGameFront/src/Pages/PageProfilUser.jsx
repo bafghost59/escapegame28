@@ -5,7 +5,7 @@ import SidebarClient from "../Components/Sidebar.jsx";
 import ProfilList from "../Components/ProfilList.jsx";
 import { HiMenu } from "react-icons/hi";
 
-export default function PageProfilUser() {
+export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
   const [ongletActif, setOngletActif] = useState("reservations");
   const [openMobileSidebar, setOpenMobileSidebar] = useState(false);
 
@@ -26,6 +26,8 @@ export default function PageProfilUser() {
         setOngletActif={setOngletActif}
         openMobile={openMobileSidebar}
         setOpenMobile={setOpenMobileSidebar}
+          setIsLoggedIn={setIsLoggedIn}
+  setUser={setUser}
       />
 
       {/* Colonne principale responsive */}
