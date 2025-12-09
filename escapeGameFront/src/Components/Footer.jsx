@@ -13,12 +13,9 @@ export default function FooterEscapeGame() {
                 {/* Liens */}
                 <ul className="flex flex-wrap items-center gap-6">
                     <li>
-                        <a
-                            href="#"
-                            className="text-white"
-                        >
-                            À propos
-                        </a>
+                        <Link to="/Apropos" className="text-white no-underline transition-colors hover:text-[#F5A623]">
+                            A propos
+                        </Link>
                     </li>
                     <li>
                         <Link to="/cgu" className="text-white no-underline transition-colors hover:text-[#F5A623]">
@@ -26,17 +23,14 @@ export default function FooterEscapeGame() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/rgpd" className="text-white transition-colors hover:text-[#F5A623]">
+                        <Link to="/rgpd" className="text-white no-underline transition-colors hover:text-[#F5A623]">
                             Politique de confidentialité
                         </Link>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            className="text-white"
-                        >
+                        <Link to="/support" className="text-white no-underline  transition-colors hover:text-[#F5A623]">
                             Contact
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>

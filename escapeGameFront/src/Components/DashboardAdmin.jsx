@@ -1,59 +1,58 @@
 import { useEffect, useState } from "react";
+import PageAdmin from "../Services/PageAdmin";
 
 function Dashboard() {
     const [reservations, setReservations] = useState([]);
 
-    // Appel de l'API pour récupérer les réservations
     useEffect(() => {
-        fetch("http://localhost:5000/bookings/details")
-            .then(res => res.json())
-            .then(data => setReservations(data))
-             .catch(err => console.error(err));
+        async function fetchReservations() {
+            try {
+                const response = await PageAdmin.fetchPageAdmin();
+                setReservations(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchReservations();
     }, []);
 
-
     return (
-        <div className="p-6 text-white">
-            <h1 className="text-3xl font-bold mb-6">Tableau de bord Admin</h1>
+        <div className="w-full p-4 text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center sm:text-left">Tableau de bord Admin</h1>
 
-            <div className="bg-white text-black rounded-xl shadow p-4 overflow-x-auto">
-                <table className="w-full min-w-max">
-                    <thead>
-                        <tr className="border-b bg-gray-100">
-                            <th className="px-4 py-3 text-center whitespace-nowrap">ID</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Nom</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Prénom</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Email</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Titre de l'escape Game</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Montant</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Date réservée</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Créneau</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Statut</th>
-                            <th className="px-4 py-3 text-center whitespace-nowrap">Paiement</th>
+            <div className="overflow-x-auto bg-white text-black rounded-xl shadow p-2 sm:p-4">
+                <table className="min-w-full text-sm sm:text-base">
+                    <thead className="bg-gray-100">
+                        <tr>
+                            <th className="px-2 py-1 sm:px-4 sm:py-2 text-center">ID</th>
+                            <th className="px-2 py-1 sm:px-4 sm:py-2 text-center">Nom</th>
+                            <th className="px-2 py-1 sm:px-4 sm:py-2 text-center">Prénom</th>
+                            <th className="hidden md:table-cell px-4 py-2 text-center">Email</th>
+                            <th className="px-2 py-1 sm:px-4 sm:py-2 text-center">Titre</th>
+                            <th className="hidden md:table-cell px-4 py-2 text-center">Montant</th>
+                            <th className="hidden md:table-cell px-4 py-2 text-center">Date</th>
+                            <th className="hidden lg:table-cell px-4 py-2 text-center">Créneau</th>
+                            <th className="px-2 py-1 sm:px-4 sm:py-2 text-center">Statut</th>
+                            <th className="hidden md:table-cell px-4 py-2 text-center">Paiement</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {reservations.map((reservation) => (
-                            <tr key={reservation.id_booking} className="border-b">
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.userId}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.lastname}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.firstname}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.email}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.escape_title}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.total_payment} €</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">
-                                    {new Date(reservation.date_booking).toLocaleString()} // transformer la date au format lisible comme par exemple 25/12/2025
-                                </td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">
-                                    {new Date(reservation.hours_selected).toLocaleTimeString()} // transformer l'heure au format lisible comme par exemple 14:30
-                                </td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.booking_status}</td>
-                                <td className="px-4 py-3 text-center whitespace-nowrap">{reservation.mode_payment}</td>
+                            <tr key={reservation.id_booking} className="border-b hover:bg-gray-50">
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.id_booking}</td>
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.lastname}</td>
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.firstname}</td>
+                                <td className="hidden md:table-cell px-4 py-2 text-center">{reservation.email}</td>
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.escape_title}</td>
+                                <td className="hidden md:table-cell px-4 py-2 text-center">{reservation.total_payment} €</td>
+                                <td className="hidden md:table-cell px-4 py-2 text-center">{new Date(reservation.date_booking).toLocaleDateString("fr-FR")}</td>
+                                <td className="hidden lg:table-cell px-4 py-2 text-center">{new Date(reservation.hours_selected).toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' })}</td>
+                                <td className="px-2 py-1 sm:px-4 sm:py-2 text-center">{reservation.booking_status}</td>
+                                <td className="hidden md:table-cell px-4 py-2 text-center">{reservation.mode_payment}</td>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             </div>
         </div>

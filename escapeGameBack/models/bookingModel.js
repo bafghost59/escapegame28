@@ -111,15 +111,36 @@ export const checkAvailability = async (hours_selected, escape_id) => {
   return rows.length > 0;
 };
 
-export const getBookingsByUserId = async (user_id) => {
+export const getBookedSlotsForEscapeAndDate = async (escape_id, date_booking) => {
   const sql = `
-    SELECT booking.*, escapeGame.title, escapeGame.location
+    SELECT DATE_FORMAT(hours_selected, '%H:%i') AS time_slot
     FROM booking
-    INNER JOIN escapeGame
-      ON booking.escape_id = escapeGame.id_escape
-    WHERE booking.user_id = ?
-    ORDER BY booking.hours_selected ASC
+    WHERE escape_id = ?
+      AND DATE(hours_selected) = ?
+      AND status != 'annulǸ'
   `;
-  const [rows] = await bdd.query(sql, [user_id]);
+  const [rows] = await bdd.query(sql, [escape_id, date_booking]);
+  // on renvoie un tableau du type ["10:00", "14:00", ...]
+  return rows.map((row) => row.time_slot);
+};
+
+
+export const getBookingsByUserId = async (id_account) => {
+  const sql = `
+SELECT
+  booking.*,
+  escapeGame.title,
+  escapeGame.location,
+  escapeGame.price_escape,
+  escapeGame.photo_escape
+FROM booking
+INNER JOIN users
+  ON booking.user_id = users.id_user
+INNER JOIN escapeGame
+  ON booking.escape_id = escapeGame.id_escape
+WHERE users.account_id = ?
+ORDER BY booking.hours_selected ASC;
+`;
+  const [rows] = await bdd.query(sql, [id_account]);
   return rows;
 };

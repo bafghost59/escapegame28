@@ -9,10 +9,26 @@ export const getAllUsers = async () => {
   return response;
 };
 
-export const getInfoUser = async () => {
-  const selectInfoUser = "SELECT lastname, firstname, email, role  from users;";
+export const getInfoUserById = async (id_account) => {
+  const selectInfoUser = `SELECT
+      u.id_user,
+      u.lastname,
+      u.firstname,
+      u.email,
+      u.adress,
+      u.postal_code,
+      u.city,
+      u.role,
+      u.created_at,
+      u.account_id,
+      a.login,
+      a.password
+    FROM users AS u
+    INNER JOIN account AS a
+      ON u.account_id = a.id_account
+    WHERE u.account_id = ?;`;
 
-  const [response] = await bdd.query(selectInfoUser);
+  const [response] = await bdd.query(selectInfoUser, [id_account]);
 
   return response;
 };
@@ -57,22 +73,27 @@ export const createUser = async ({
   return response;
 };
 
-export const updateUser = async (id_user, {
-  lastname,
-  firstname,
-  email,
-  adress,
-  postal_code,
-  city,
-  role,
-}) => {
-  const updateUserById = `
+export const updateUser = async (
+  id_user,
+  {
+    lastname,
+    firstname,
+    email,
+    adress,
+    postal_code,
+    city,
+    role,
+    login,      // nouveau login
+    password,   // mot de passe déjà hashé OU null
+  }
+) => {
+  // 1) Mettre à jour la table users
+  const sqlUser = `
     UPDATE users
     SET lastname = ?, firstname = ?, email = ?, adress = ?, postal_code = ?, city = ?, role = ?
     WHERE id_user = ?
   `;
-
-  const params = [
+  const paramsUser = [
     lastname,
     firstname,
     email,
@@ -83,9 +104,38 @@ export const updateUser = async (id_user, {
     id_user,
   ];
 
-  const [result] = await bdd.query(updateUserById, params);
-  return result;
+  const [resultUser] = await bdd.query(sqlUser, paramsUser);
+
+  if (resultUser.affectedRows === 0) {
+    return { resultUser, resultAccount: null };
+  }
+
+  const [rows] = await bdd.query(
+    "SELECT account_id FROM users WHERE id_user = ?",
+    [id_user]
+  );
+  const account_id = rows[0]?.account_id;
+
+  if (!account_id) {
+    return { resultUser, resultAccount: null };
+  }
+
+  let sqlAccount = "UPDATE account SET login = ?";
+  const paramsAccount = [login];
+
+  if (password) {
+    sqlAccount += ", password = ?";
+    paramsAccount.push(password);
+  }
+
+  sqlAccount += " WHERE id_account = ?";
+  paramsAccount.push(account_id);
+
+  const [resultAccount] = await bdd.query(sqlAccount, paramsAccount);
+
+  return { resultUser, resultAccount };
 };
+
 
 export const deleteUser = async (id_user) => {
   const sql = 'DELETE FROM users WHERE id_user = ?';

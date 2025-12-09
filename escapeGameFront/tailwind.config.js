@@ -1,8 +1,11 @@
+import flowbiteReact from "flowbite-react/plugin/tailwindcss";
+
 // tailwind.config.js
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
+    ".flowbite-react/class-list.json"
   ],
   theme: {
     extend: {
@@ -13,5 +16,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbiteReact],
 }

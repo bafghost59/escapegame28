@@ -4,8 +4,8 @@ import ConnexionService from "../Services/ConnexionService.js"
 import PageInscription from "../Pages/PageInscription.jsx";
 
 
-export default function FormulaireConnexion() {
-    
+export default function FormulaireConnexion({ setIsLoggedIn }) {
+    const id = localStorage.getItem("user_id");
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -14,7 +14,18 @@ export default function FormulaireConnexion() {
     e.preventDefault();
     try {
       const response = await ConnexionService.ConnexionUser(login, password);
-      console.log(response.data)
+if (response.data) {
+  const userId = response.data.loginInDbId;
+  localStorage.setItem("user_id", userId);
+
+  setIsLoggedIn(true);
+
+  if (userId === 6) {
+    navigate("/admin");
+  } else {
+    navigate("/Profil");
+  }
+}
     } catch (error) {
       console.error("Identifiant ou mot de passe incorrect", error);
       alert("Identifiant ou mot de passe incorrect", error);
@@ -31,7 +42,7 @@ export default function FormulaireConnexion() {
         <form className="max-w-sm mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg" onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              type="email"
+              type="text"
               name="login"
               id="login"
               className="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:border-[#F5A623] peer"
@@ -73,6 +84,18 @@ export default function FormulaireConnexion() {
           >
             Connexion
           </button>
+                        <p
+                onClick={() => { navigate('/forgotPassword'); }}
+                className="underline cursor-pointer mt-6 text-blue-700 text-center"
+              >
+                Mot de passe oublié ?
+              </p>
+              <p
+                onClick={() => { navigate('/inscription/'); }}
+                className="underline cursor-pointer mt-2 text-blue-700 text-center"
+              >
+                Pas encore de compte ? Inscrivez-vous ici!
+              </p>
         </form>
       </div>
     </main>

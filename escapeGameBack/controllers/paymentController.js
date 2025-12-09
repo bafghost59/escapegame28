@@ -1,4 +1,4 @@
-
+import Stripe from 'stripe';
 import {
   getAllPayments,
   getAllPaymentsWithBooking,
@@ -7,6 +7,8 @@ import {
   updatePayment,
   deletePayment,
 } from '../models/paymentModel.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 export const getAllPaymentsController = async (req, res) => {
@@ -124,5 +126,45 @@ export const deletePaymentController = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const createStripeCheckoutSession = async (req, res) => {
+  try {
+    const { bookingId, total, escapeTitle } = req.body;
+
+    if (!bookingId || !total) {
+      return res.status(400).json({ message: "bookingId et total sont requis" });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: escapeTitle || `Réservation escape game #${bookingId}`,
+            },
+            unit_amount: Math.round(Number(total) * 100),
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        bookingId: String(bookingId),
+      },
+      success_url: `${process.env.FRONT_URL}/reservation/${bookingId}/confirmation?payment=success&total=${encodeURIComponent(
+        total
+      )}&title=${encodeURIComponent(escapeTitle || "")}`,
+      cancel_url: `${process.env.FRONT_URL}/reservation/${bookingId}/paiement?canceled=true`,
+    });
+
+
+    return res.json({ url: session.url });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur Stripe" });
   }
 };
