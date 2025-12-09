@@ -9,7 +9,7 @@ import {
 } from '../models/paymentModel.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+const BASE_URL = process.env.FRONTEND_URL_DEV || process.env.FRONTEND_URL_PROD;
 
 export const getAllPaymentsController = async (req, res) => {
   try {

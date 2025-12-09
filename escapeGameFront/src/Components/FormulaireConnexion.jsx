@@ -27,7 +27,7 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
         
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("user_id", userId);
-
+        localStorage.setItem("token", response.data.token);
        
         setIsLoggedIn(true);
         setUser(userData);
