@@ -10,7 +10,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
     const links = [
         { name: "Accueil", to: "/" },
         { name: "Catalogue", to: "/catalogue" },
-        { name: "Réserver", to: "#" },
+        { name: "Réserver", to: "" },
         { name: "À propos", to: "#" },
         { name: "Contact", to: "#" },
     ];

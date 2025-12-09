@@ -20,7 +20,7 @@ export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
 
   return (
     <div className="flex min-h-screen text-slate-50">
-      {/* Sidebar desktop + drawer mobile */}
+
       <SidebarClient
         ongletActif={ongletActif}
         setOngletActif={setOngletActif}
@@ -30,9 +30,9 @@ export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
   setUser={setUser}
       />
 
-      {/* Colonne principale responsive */}
+
       <div className="flex flex-1 min-h-screen flex-col">
-        {/* HEADER MOBILE : visible < md */}
+
         <header className="flex items-center gap-3 border-b border-slate-800 bg-slate-900 px-4 py-3 md:hidden">
           <button
             type="button"
