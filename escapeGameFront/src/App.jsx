@@ -16,6 +16,7 @@ import { useState } from 'react';
 import PageReservationTwo from './Pages/PageReservationTwo.jsx';
 import PageReservationThree from "./Pages/PageReservationThree.jsx";
 import PageReservationOne from './Pages/PageReservationOne.jsx';
+import PageApropos from "./Pages/PageApropos.jsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -49,6 +50,7 @@ function App() {
             <Route path="/reservation/:id" element={<PageReservationOne />} />
             <Route path="/reservation/:id/paiement" element={<PageReservationTwo />} />
             <Route path="/reservation/:id/confirmation" element={<PageReservationThree />} />
+            <Route path="/apropos" element={<PageApropos />} />
             <Route
               path="/connexion"
               element={
