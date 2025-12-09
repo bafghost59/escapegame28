@@ -96,7 +96,6 @@ export const updateUserController = async (req, res) => {
       adress,
       postal_code,
       city,
-      role,
       login,
       password, 
     } = req.body;
@@ -114,9 +113,8 @@ export const updateUserController = async (req, res) => {
       adress,
       postal_code,
       city,
-      role,
       login,
-      password: hashedPassword, // peut être null, dans ce cas non mis à jour
+      password: hashedPassword, 
     });
 
  

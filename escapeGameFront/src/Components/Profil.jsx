@@ -243,29 +243,6 @@ export default function ProfilUser({ profilInfo, setProfilInfo }) {
                   )}
                 </td>
               </tr>
-
-              {/* RÔLE */}
-              <tr className="bg-slate-900/60 hover:bg-slate-800/70">
-                <td className="px-4 py-4 font-medium text-slate-100 md:px-6">
-                  Rôle
-                </td>
-                <td className="px-4 py-4 md:px-6">
-                  {modeEdition ? (
-                    <select
-                      value={formProfil.role}
-                      onChange={(e) =>
-                        setFormProfil({ ...formProfil, role: e.target.value })
-                      }
-                      className="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1 text-sm text-slate-100 md:w-auto"
-                    >
-                      <option value="user">Utilisateur</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  ) : (
-                    <span>{profilInfo.role}</span>
-                  )}
-                </td>
-              </tr>
             </tbody>
           </table>
 

@@ -82,15 +82,13 @@ export const updateUser = async (
     adress,
     postal_code,
     city,
-    role,
-    login,      // nouveau login
-    password,   // mot de passe déjà hashé OU null
+    login,      
+    password,   
   }
 ) => {
-  // 1) Mettre à jour la table users
   const sqlUser = `
     UPDATE users
-    SET lastname = ?, firstname = ?, email = ?, adress = ?, postal_code = ?, city = ?, role = ?
+    SET lastname = ?, firstname = ?, email = ?, adress = ?, postal_code = ?, city = ?
     WHERE id_user = ?
   `;
   const paramsUser = [
@@ -100,7 +98,6 @@ export const updateUser = async (
     adress,
     postal_code,
     city,
-    role,
     id_user,
   ];
 

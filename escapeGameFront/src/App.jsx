@@ -46,6 +46,9 @@ function App() {
             <Route path="/admin" element={<PageAdmin />} />
             <Route path="/inscription" element={<PageInscription />} />
             <Route path="/forgotPassword" element={<PageForgetMdp />} />
+            <Route path="/reservation/:id" element={<PageReservationOne />} />
+            <Route path="/reservation/:id/paiement" element={<PageReservationTwo />} />
+            <Route path="/reservation/:id/confirmation" element={<PageReservationThree />} />
             <Route
               path="/connexion"
               element={
@@ -77,40 +80,10 @@ function App() {
           </Routes>
         </main>
 
-<<<<<<< HEAD
-
-  return <>
-    <div className="min-h-screen flex flex-col bg-[#1E1E2F]">
-   <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-
-      <main className="flex-1 flex">
-        <Routes>
-          <Route path="/" element={<PageAccueil />} />
-          <Route path="/catalogue" element={<PageCatalogue />} />
-          <Route path="/cgu" element={<PageCGU />} />
-          <Route path="/rgpd" element={<PageRGPD />} />
-          <Route path="/admin" element={<PageAdmin />} />
-          <Route path="/inscription" element={<PageInscription />} />
-          <Route path="/forgotPassword" element={<PageForgetMdp />} />
-          <Route path="/connexion" element={<PageConnexion setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/Profil" element={<PageProfilUser />} />
-          <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
-          <Route path="/reservation/:id" element={<PageReservationOne />} />
-          <Route path="/reservation/:id/paiement" element={<PageReservationTwo />} />
-          <Route path="/reservation/:id/confirmation" element={<PageReservationThree />} />
-        </Routes>
-      </main>
-
-      <FooterEscapeGame />
-    </div>
-  </>
-
-=======
         <FooterEscapeGame />
       </div>
     </>
   );
->>>>>>> d5587f7654044f4e5823bafba60599f692363cb5
 }
 
 export default App;
