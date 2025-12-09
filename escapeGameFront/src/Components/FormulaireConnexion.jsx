@@ -4,6 +4,7 @@ import ConnexionService from "../Services/ConnexionService.js"
 import PageInscription from "../Pages/PageInscription.jsx";
 
 
+<<<<<<< HEAD
 export default function FormulaireConnexion({ setIsLoggedIn }) {
   const id = localStorage.getItem("user_id");
   const [login, setLogin] = useState("");
@@ -30,6 +31,30 @@ export default function FormulaireConnexion({ setIsLoggedIn }) {
           navigate("/Profil");
         }
       }
+=======
+export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
+
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await ConnexionService.ConnexionUser(login, password);
+if (response.data) {
+  const userId = response.data.loginInDbId;
+  const userData = {
+  id: response.data.loginInDbId,
+  firstname: response.data.firstname,
+  login: response.data.login,
+  token: response.data.token,
+};
+localStorage.setItem("user", JSON.stringify(userData));
+localStorage.setItem("user_id", userId);
+setIsLoggedIn(true);
+setUser(userData);
+>>>>>>> d5587f7654044f4e5823bafba60599f692363cb5
 
     } catch (error) {
       console.error("Identifiant ou mot de passe incorrect", error);

@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 import Logo from "../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
+export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -29,8 +29,14 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
     localStorage.removeItem("account_id");
     localStorage.removeItem("user_id");
     setIsLoggedIn(false);
+    setUser(null);
     navigate("/connexion"); 
   };
+
+  const handleProfileClick = () => {
+         navigate("/Profil")
+  } 
+   
 
     const handleLoginClick = () => {
     navigate("/connexion");
@@ -71,25 +77,25 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
                 {/* BOUTON CONNEXION DESKTOP */}
 
-  <div className="hidden md:flex items-center gap-4">
-    {isLoggedIn ? (
-      <button
-        onClick={handleLogout}
-        className="rounded-2xl bg-red-600 px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-red-500"
-        aria-label="Se déconnecter"
-      >
-        Se déconnecter
-      </button>
-    ) : (
-      <button
-        onClick={handleLoginClick}
-        className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
-        aria-label="Connexion"
-      >
-        Connexion
-      </button>
-    )}
-  </div>
+<div className="hidden md:flex items-center gap-4">
+  {isLoggedIn ? (
+    <button
+      onClick={handleProfileClick}
+      className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+      aria-label="Accéder à l'espace client"
+    >
+      {user?.firstname}
+    </button>
+  ) : (
+    <button
+      onClick={handleLoginClick}
+      className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+      aria-label="Connexion"
+    >
+      Connexion
+    </button>
+  )}
+</div>
 
 
                 {/* HAMBURGER MOBILE */}
@@ -130,15 +136,30 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
                         </li>
                     ))}
 
-                    <li className="pt-6">
-                        <a
-                            href="#"
-                            onClick={() => setOpen(false)}
-                            className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
-                        >
-                            Connexion
-                        </a>
-                    </li>
+                  <li className="pt-6">
+  {isLoggedIn ? (
+    <button
+      onClick={() => {
+        handleProfileClick();
+        setOpen(false);
+      }}
+      className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-red-500"
+    >
+      {user?.firstname || "Mon compte"}
+    </button>
+  ) : (
+    <button
+      onClick={() => {
+        handleLoginClick();
+        setOpen(false);
+      }}
+      className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+    >
+      Connexion
+    </button>
+  )}
+</li>
+
                 </ul>
             </div>
         </header>
