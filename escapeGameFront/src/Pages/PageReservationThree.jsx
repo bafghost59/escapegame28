@@ -1,21 +1,64 @@
 // src/Pages/PageReservationThree.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
 // import jsPDF from "jspdf";
+import axios from "axios";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
 
 export default function PageReservationThree() {
   const navigate = useNavigate();
-  const { id } = useParams(); // ici on considère que :id = bookingId
+  const { id } = useParams(); // ici :id = bookingId
   const [searchParams] = useSearchParams();
 
   const paymentStatus = searchParams.get("payment");
   const total = searchParams.get("total") || "0";
   const title = decodeURIComponent(searchParams.get("title") || "");
   const isSuccess = paymentStatus === "success";
+
+  const [cancellationInfo, setCancellationInfo] = useState(null);
+  const [policyError, setPolicyError] = useState(null);
+  const [policyLoading, setPolicyLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCancellationInfo() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setPolicyError(
+            "Connectez-vous pour voir les conditions d'annulation de cette réservation."
+          );
+          return;
+        }
+
+        const res = await axios.get(
+          `${API_BASE_URL}/bookings/${id}/cancellation-info`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCancellationInfo(res.data);
+      } catch (err) {
+        console.error(err);
+        setPolicyError(
+          "Impossible de récupérer les conditions d'annulation pour le moment."
+        );
+      } finally {
+        setPolicyLoading(false);
+      }
+    }
+
+    if (id) {
+      fetchCancellationInfo();
+    }
+  }, [id]);
 
   const handleDownloadInvoice = () => {
     const doc = new jsPDF();
@@ -92,7 +135,7 @@ export default function PageReservationThree() {
             Statut du paiement :{" "}
             <span className={isSuccess ? "text-green-400" : "text-yellow-300"}>
               {isSuccess
-                ? "Paiement confirmé ✅"
+                ? "Paiement confirmé ✔."
                 : "Statut inconnu ou paiement non confirmé"}
             </span>
           </p>
@@ -104,8 +147,7 @@ export default function PageReservationThree() {
           )}
 
           <p>
-            Montant payé :{" "}
-            <span className="font-semibold">{total} €</span>
+            Montant payé : <span className="font-semibold">{total} €</span>
           </p>
 
           <p className="text-xs text-[#CCCCCC]">
@@ -114,7 +156,7 @@ export default function PageReservationThree() {
           </p>
         </div>
 
-        {/* Actions : facture + retour */}
+        {/* Actions : facture + retour + politique d'annulation */}
         <div className="bg-[#2C2C3A] rounded-lg border border-[#4A90E2] p-6 space-y-4 text-sm">
           <h2 className="text-lg font-semibold text-white">
             Suivi et facture
@@ -140,10 +182,33 @@ export default function PageReservationThree() {
               Retour au catalogue
             </button>
           </div>
+
+          {/* Politique d'annulation pour cette réservation */}
+          <div className="mt-4 border-t border-[#4A90E2]/40 pt-3 text-xs text-[#CCCCCC]">
+            <h3 className="text-sm font-semibold text-[#F5A623] mb-1">
+              Conditions d&apos;annulation pour cette réservation
+            </h3>
+            {policyLoading && (
+              <p className="text-xs text-[#CCCCCC]">
+                Calcul des conditions d&apos;annulation...
+              </p>
+            )}
+            {policyError && (
+              <p className="text-xs text-red-400">{policyError}</p>
+            )}
+            {!policyLoading && !policyError && cancellationInfo && (
+              <p>
+                {cancellationInfo.refundPercent > 0
+                  ? `Si vous annulez maintenant, vous pourrez être remboursé à hauteur de ${cancellationInfo.refundPercent} %.`
+                  : "Selon nos règles, cette réservation n'est plus remboursable."}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
 
 

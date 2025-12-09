@@ -2,7 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getEscapeById } from "../Services/PageCatalogue";
-import { createBooking, getAvailableSlots } from "../Services/PageReservationOne";
+import {
+  createBooking,
+  getAvailableSlots,
+} from "../Services/PageReservationOne";
+import axios from "axios";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
 
 function difficultyToLabel(difficult) {
   if (difficult === "easy") return "Facile";
@@ -42,6 +49,9 @@ export default function PageReservationOne() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
+  const [policies, setPolicies] = useState([]);
+  const [policyError, setPolicyError] = useState(null);
+
   // 1) Charger l'escape choisi
   useEffect(() => {
     async function fetchEscape() {
@@ -49,7 +59,6 @@ export default function PageReservationOne() {
         const data = await getEscapeById(id);
         setEscape(data);
 
-        // Valeur par défaut pour le nombre de joueurs
         if (data?.min_players) {
           setPlayers(data.min_players);
         }
@@ -89,6 +98,22 @@ export default function PageReservationOne() {
 
     fetchSlots();
   }, [selectedDate, escape]);
+
+  // 3) Charger la politique d'annulation (globale)
+  useEffect(() => {
+    async function fetchPolicies() {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/cancellation-policies`);
+        setPolicies(res.data || []);
+      } catch (err) {
+        console.error(err);
+        setPolicyError(
+          "Impossible de charger la politique d'annulation pour le moment."
+        );
+      }
+    }
+    fetchPolicies();
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -130,7 +155,6 @@ export default function PageReservationOne() {
 
     (async () => {
       try {
-        // on construit les DATETIME pour MySQL
         const date_booking = `${selectedDate} 00:00:00`;
         const hours_selected = `${selectedDate} ${selectedSlot}:00`;
 
@@ -182,6 +206,10 @@ export default function PageReservationOne() {
   const fieldClasses =
     "w-full rounded-md bg-[#2C2C3A] border border-[#F5A623] px-3 py-2 text-sm text-white placeholder-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#F5A623]";
 
+  const globalPolicies = (policies || []).filter(
+    (p) => p.escape_id === null || typeof p.escape_id === "undefined"
+  );
+
   return (
     <div className="min-h-screen w-full bg-[#1E1E2F] text-[#EAEAEA] px-8 py-10">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -213,11 +241,12 @@ export default function PageReservationOne() {
             Étape 1 – Choix du créneau
           </h1>
           <p className="text-sm text-[#EAEAEA]">
-            Sélectionnez la date, l&apos;horaire et le nombre de joueurs pour votre escape game.
+            Sélectionnez la date, l&apos;horaire et le nombre de joueurs pour
+            votre escape game.
           </p>
         </div>
 
-        {/* Récap escape */}
+        {/* Récap escape + formulaire */}
         <div className="grid gap-6 md:grid-cols-2">
           <div className="bg-[#2C2C3A] rounded-lg border border-[#4A90E2] overflow-hidden">
             <img
@@ -247,9 +276,7 @@ export default function PageReservationOne() {
                   </span>
                 </span>
               </div>
-              <p className="text-xs mt-3 line-clamp-4">
-                {escape.describe}
-              </p>
+              <p className="text-xs mt-3 line-clamp-4">{escape.describe}</p>
             </div>
           </div>
 
@@ -364,11 +391,36 @@ export default function PageReservationOne() {
                 {submitting ? "Validation..." : "Continuer vers le paiement"}
               </button>
             </div>
+
+            {/* Politique d'annulation */}
+            <div className="mt-4 border-t border-[#4A90E2]/40 pt-3 text-xs text-[#CCCCCC]">
+              <h3 className="text-sm font-semibold text-[#F5A623] mb-1">
+                Politique d&apos;annulation
+              </h3>
+              {policyError && (
+                <p className="text-xs text-red-400">{policyError}</p>
+              )}
+              {!policyError && globalPolicies.length > 0 && (
+                <ul className="list-disc pl-4 space-y-1">
+                  {globalPolicies.map((p, index) => {
+                    const isInfinite = p.hours_before_max >= 9999;
+                    return (
+                      <li key={index}>
+                        {isInfinite
+                          ? `Annulation plus de ${p.hours_before_min}h avant : ${p.refund_percent}% remboursé.`
+                          : `Annulation entre ${p.hours_before_min}h et ${p.hours_before_max}h avant : ${p.refund_percent}% remboursé.`}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
           </form>
         </div>
       </div>
     </div>
   );
 }
+
 
 

@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getEscapeById } from "../Services/PageCatalogue";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
 
 function difficultyToLabel(difficult) {
   if (difficult === "easy") return "Facile";
@@ -30,6 +34,9 @@ export default function PageEscapeDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [cancellationPolicies, setCancellationPolicies] = useState([]);
+  const [policyError, setPolicyError] = useState(null);
+
   useEffect(() => {
     async function fetchEscape() {
       try {
@@ -44,6 +51,21 @@ export default function PageEscapeDetail() {
     }
     fetchEscape();
   }, [id]);
+
+  useEffect(() => {
+    async function fetchPolicies() {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/cancellation-policies`);
+        setCancellationPolicies(res.data || []);
+      } catch (err) {
+        console.error(err);
+        setPolicyError(
+          "Impossible de charger la politique d'annulation pour le moment."
+        );
+      }
+    }
+    fetchPolicies();
+  }, []);
 
   if (loading) {
     return (
@@ -63,10 +85,17 @@ export default function PageEscapeDetail() {
 
   const tags =
     typeof escape.tags === "string"
-      ? escape.tags.split(",").map((t) => t.trim()).filter(Boolean)
+      ? escape.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
       : Array.isArray(escape.tags)
-        ? escape.tags
-        : [];
+      ? escape.tags
+      : [];
+
+  const globalPolicies = (cancellationPolicies || []).filter(
+    (p) => p.escape_id === null || typeof p.escape_id === "undefined"
+  );
 
   return (
     <div className="w-full bg-[#1E1E2F] text-[#EAEAEA] px-8 py-10">
@@ -110,9 +139,7 @@ export default function PageEscapeDetail() {
             </span>
           </div>
 
-          <p className="text-sm leading-relaxed mb-6">
-            {escape.describe}
-          </p>
+          <p className="text-sm leading-relaxed mb-6">{escape.describe}</p>
 
           {tags.length > 0 && (
             <div className="mb-4">
@@ -131,9 +158,34 @@ export default function PageEscapeDetail() {
               </div>
             </div>
           )}
+
+          {/* Politique d'annulation */}
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold text-[#F5A623] mb-2">
+              Politique d&apos;annulation
+            </h2>
+            {policyError && (
+              <p className="text-xs text-red-400">{policyError}</p>
+            )}
+            {!policyError && globalPolicies.length > 0 && (
+              <ul className="text-xs text-[#CCCCCC] list-disc pl-4 space-y-1">
+                {globalPolicies.map((p, index) => {
+                  const isInfinite = p.hours_before_max >= 9999;
+                  return (
+                    <li key={index}>
+                      {isInfinite
+                        ? `Annulation plus de ${p.hours_before_min}h avant : ${p.refund_percent}% remboursé.`
+                        : `Annulation entre ${p.hours_before_min}h et ${p.hours_before_max}h avant : ${p.refund_percent}% remboursé.`}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+
           <Link
             to={`/reservation/${escape.id_escape}`}
-            className="inline-block mt-4 rounded-md bg-[#F5A623] px-6 py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors"
+            className="inline-block mt-6 rounded-md bg-[#F5A623] px-6 py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors"
           >
             Réserver ce jeu
           </Link>
@@ -142,4 +194,5 @@ export default function PageEscapeDetail() {
     </div>
   );
 }
+
 
