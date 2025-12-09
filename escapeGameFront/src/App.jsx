@@ -8,11 +8,13 @@ import PageInscription from "./Pages/PageInscription.jsx";
 import PageConnexion from "./Pages/PageConnexion.jsx";
 import PageCatalogue from "./Pages/PageCatalogue.jsx";
 import { Route, Routes } from "react-router-dom";
-import PageEscapeDetail from "./Pages/PageEscapeDetail";
-import PageSupport from "./Pages/PageSupport.jsx";
-import PageForgetMdp from "./Pages/PageForgetMdp.jsx";
-import PageProfilUser from "./Pages/PageProfilUser.jsx";
-import { useState } from "react";
+import PageEscapeDetail from './Pages/PageEscapeDetail';
+import PageSupport from './Pages/PageSupport.jsx';
+import PageForgetMdp from './Pages/PageForgetMdp.jsx'
+import PageProfilUser from './Pages/PageProfilUser.jsx'
+import { useState } from 'react'
+
+import PageReservationOne from './Pages/PageReservationOne.jsx';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {

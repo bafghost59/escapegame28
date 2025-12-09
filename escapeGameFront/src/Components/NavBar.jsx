@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from "../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import connexion from '../Pages/PageConnexion';
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
     const [open, setOpen] = useState(false);
@@ -67,7 +66,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
                         <li key={link.name}>
                             <Link
                                 to={link.to}
-                                className="text-[#CCCCCC] transition-colors duration-200 hover:text-[#F5A623]"
+                                className="text-[#CCCCCC] no-underline transition-colors duration-200 hover:text-[#F5A623]"
                                 aria-label={link.name}
                             >
                                 {link.name}
@@ -130,7 +129,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
                             <Link
                                 to={link.to}
                                 onClick={() => setOpen(false)}
-                                className="block text-[#EAEAEA] text-lg transition-colors duration-200 hover:text-[#F5A623]"
+                                className="block text-[#EAEAEA] text-lg no-underline transition-colors duration-200 hover:text-[#F5A623]"
                             >
                                 {link.name}
                             </Link>
@@ -166,5 +165,6 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         </header>
     );
 }
+
 
 

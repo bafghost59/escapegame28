@@ -111,6 +111,19 @@ export const checkAvailability = async (hours_selected, escape_id) => {
   return rows.length > 0;
 };
 
+export const getBookedSlotsForEscapeAndDate = async (escape_id, date_booking) => {
+  const sql = `
+    SELECT DATE_FORMAT(hours_selected, '%H:%i') AS time_slot
+    FROM booking
+    WHERE escape_id = ?
+      AND DATE(hours_selected) = ?
+      AND status != 'annulǸ'
+  `;
+  const [rows] = await bdd.query(sql, [escape_id, date_booking]);
+  // on renvoie un tableau du type ["10:00", "14:00", ...]
+  return rows.map((row) => row.time_slot);
+};
+
 
 export const getBookingsByUserId = async (id_account) => {
   const sql = `

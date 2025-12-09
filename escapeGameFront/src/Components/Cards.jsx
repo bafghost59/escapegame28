@@ -7,12 +7,14 @@ export default function Card({
   title = "Title",
   subtitle = "Subtitle",
   description = "Lorem ipsum...",
-  price = "xx.xx€",
+  price = "xx.xx €",
   rating = 4,
   maxRating = 5,
   difficultyLabel = "Difficulté",
   durationLabel = "Durée",
-  detailUrl, // URL de la page détail
+  detailUrl,         // URL de la page détail
+  tags = [],         // tableau de tags
+  reservationUrl,
 }) {
   const stars = Array.from({ length: maxRating }, (_, i) => (
     <span
@@ -35,12 +37,26 @@ export default function Card({
           <p className="text-sm text-[#EAEAEA]">{subtitle}</p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-[#EAEAEA]">
+        <div className="flex flex-col items-start gap-1 text-xs text-[#EAEAEA]">
           <span className="rounded-full border border-[#F5A623] px-2 py-0.5 text-[#F5A623]">
             {difficultyLabel}
           </span>
-          <span>• {durationLabel}</span>
+          <span className="self-start">⏱ {durationLabel}</span>
         </div>
+
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 text-xs">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-1 rounded-full bg-[#1E1E2F] border border-[#4A90E2]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
 
         <p className="text-sm leading-relaxed text-[#EAEAEA] line-clamp-4">
           {description}
@@ -64,16 +80,25 @@ export default function Card({
           </p>
         </div>
 
-
         <div className="pt-3 mt-auto">
-          <button className="w-full rounded-md bg-[#F5A623] py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors">
-            Réserver
-          </button>
+          {reservationUrl ? (
+            <Link
+              to={reservationUrl}
+              className="block w-full text-center rounded-md bg-[#F5A623] py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors"
+            >
+              Réserver
+            </Link>
+          ) : (
+            <button className="w-full rounded-md bg-[#F5A623] py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors">
+              Réserver
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
 
 
 

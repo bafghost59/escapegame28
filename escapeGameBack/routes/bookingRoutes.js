@@ -5,6 +5,7 @@ import verifyToken from '../middlewares/checkToken.js';
 
 const router = express.Router();
 
+router.get('/bookings/availability',bookingController.getAvailableSlotsController);
 router.get('/bookings', verifyToken, bookingController.getAllBookingsController);
 router.get('/bookings/details', bookingController.getAllBookingsWithDetailsController);
 router.get('/bookings/:id', verifyToken, bookingController.getBookingByIdController);

@@ -7,7 +7,8 @@ import {
   updateBooking,
   deleteBooking,
   checkAvailability,
-  getBookingsByUserId
+  getBookingsByUserId,
+  getBookedSlotsForEscapeAndDate,
 } from '../models/bookingModel.js';
 
 
@@ -65,13 +66,13 @@ export const createBookingController = async (req, res) => {
       .status(400)
       .json({ message: 'date_booking, hours_selected, user_id, escape_id sont requis' });
     }
-    
+
     const alreadyTaken = await checkAvailability(hours_selected, escape_id);
-    
+
     if (alreadyTaken) {
       return res.status(409).json({ message: "Créneau déjà réservé" });
     }
-    
+
     const result = await createBooking({
       date_booking,
       hours_selected,
@@ -87,6 +88,33 @@ export const createBookingController = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const getAvailableSlotsController = async (req, res) => {
+  try {
+    const { escapeId, date } = req.query;
+
+    if (!escapeId || !date) {
+      return res
+        .status(400)
+        .json({ message: 'escapeId et date sont requis' });
+    }
+
+    // récupère les créneaux déjà pris en BDD pour cette date / escape
+    const bookedSlots = await getBookedSlotsForEscapeAndDate(escapeId, date);
+
+    // définition des créneaux possibles dans la journée
+    const allSlots = ['10:00', '14:00', '16:30', '19:00'];
+
+    const availableSlots = allSlots.filter(
+      (slot) => !bookedSlots.includes(slot)
+    );
+
+    return res.json({ slots: availableSlots });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erreur serveur' });
   }
 };
 
