@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-// import jsPDF from "jspdf";
+import jsPDF from "jspdf";
 import axios from "axios";
 
 const API_BASE_URL =

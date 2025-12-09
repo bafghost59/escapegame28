@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Card, Button, Modal, ModalHeader, ModalBody, Label } from "flowbite-react";
 import PageProfilService from "../Services/PageProfilService";
+import { createStripeCheckoutSession } from '../Services/PaymentService.js';
 
 export default function BookingCard({ booking, onDelete }) {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     date_booking: booking.date_booking
@@ -44,6 +46,23 @@ export default function BookingCard({ booking, onDelete }) {
       }
     }
   };
+
+const handleResumePayment = async () => {
+  setIsLoading(true);
+  try { 
+    const session = await createStripeCheckoutSession({
+      bookingId: booking.id_booking, 
+      total: booking.price_escape,   
+      escapeTitle: booking.title,    
+      promoCode: ""                   
+    });
+    window.location.href = session.url; 
+  } catch (error) { 
+    alert("Erreur paiement, réessayez.");
+    console.error(error);
+    setIsLoading(false);
+  }
+};
 
   return (
     <>
@@ -118,24 +137,29 @@ export default function BookingCard({ booking, onDelete }) {
           </p>
         </div>
 
-        <div className="flex gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <Button
-            size="sm"
-            color="blue"
-            onClick={() => setShowModal(true)}
-            className="flex-1"
-          >
-            Modifier
-          </Button>
-          <Button
-            size="sm"
-            color="failure"
-            onClick={handleDelete}
-            className="flex-1"
-          >
-            Supprimer
-          </Button>
-        </div>
+ <div className="flex gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+  {/* Boutons conditionnels selon statut */}
+  {booking.status === "en attente" ? (
+    <>
+      <Button size="sm" color="blue" onClick={handleResumePayment} disabled={isLoading} className="flex-1">
+        💳 Reprendre paiement
+      </Button>
+      <Button size="sm" color="failure" onClick={handleDelete} className="flex-1">
+        Supprimer
+      </Button>
+    </>
+  ) : (
+    <>
+      <Button size="sm" color="blue" onClick={() => setShowModal(true)} className="flex-1">
+        Modifier
+      </Button>
+      <Button size="sm" color="failure" onClick={handleDelete} className="flex-1">
+        Supprimer
+      </Button>
+    </>
+  )}
+</div>
+
       </Card>
 
       <Modal
