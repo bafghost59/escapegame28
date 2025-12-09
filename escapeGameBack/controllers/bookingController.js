@@ -56,6 +56,15 @@ export const getBookingByIdController = async (req, res) => {
   }
 };
 
+export const getConfirmationOfBookingById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+  } catch (error) {
+    
+  }
+}
+
 
 export const createBookingController = async (req, res) => {
   try {
