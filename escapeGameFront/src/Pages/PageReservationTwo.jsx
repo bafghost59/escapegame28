@@ -1,7 +1,10 @@
 // src/Pages/PageReservationTwo.jsx
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createStripeCheckoutSession } from "../Services/PaymentService";
+import {
+  createStripeCheckoutSession,
+  validatePromo,
+} from "../Services/PaymentService";
 
 export default function PageReservationTwo() {
   const location = useLocation();
@@ -28,11 +31,38 @@ export default function PageReservationTwo() {
     price_escape, // passé depuis PageReservationOne
   } = bookingData;
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Si price_escape est le prix par joueur :
+  // Prix de base (prix par joueur * nb joueurs)
   const total = Number(players) * Number(price_escape || 0);
+
+  const [loading, setLoading] = useState(false);
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [promoCode, setPromoCode] = useState("");
+  const [displayTotal, setDisplayTotal] = useState(total);
+  const [discount, setDiscount] = useState(0);
+
+  async function handleApplyPromo(e) {
+    e.preventDefault();
+    setError(null);
+    setPromoLoading(true);
+
+    try {
+      const data = await validatePromo({ total, promoCode });
+      setDisplayTotal(data.finalTotal);
+      setDiscount(data.discount);
+    } catch (err) {
+      console.error(err);
+      setDiscount(0);
+      setDisplayTotal(total);
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Erreur lors de la validation du code promo."
+      );
+    } finally {
+      setPromoLoading(false);
+    }
+  }
 
   async function handlePay(e) {
     e.preventDefault();
@@ -42,14 +72,19 @@ export default function PageReservationTwo() {
     try {
       const { url } = await createStripeCheckoutSession({
         bookingId,
-        total,
+        total, // montant de base; le back recalcule avec le code promo
         escapeTitle: `Escape game #${escapeId}`,
+        promoCode: promoCode || null,
       });
 
       window.location.href = url; // redirection vers Stripe
     } catch (err) {
       console.error(err);
-      setError(err.message || "Erreur lors de la redirection vers Stripe.");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Erreur lors de la redirection vers Stripe."
+      );
       setLoading(false);
     }
   }
@@ -98,8 +133,26 @@ export default function PageReservationTwo() {
           <p>Prix par joueur : {price_escape} €</p>
           <p className="mt-2">
             Total :{" "}
-            <span className="font-semibold text-white">{total} €</span>
+            {discount > 0 ? (
+              <>
+                <span className="font-semibold text-white line-through mr-2">
+                  {total} €
+                </span>
+                <span className="font-semibold text-[#F5A623]">
+                  {displayTotal} €
+                </span>
+              </>
+            ) : (
+              <span className="font-semibold text-white">
+                {displayTotal} €
+              </span>
+            )}
           </p>
+          {discount > 0 && (
+            <p className="text-xs text-green-400">
+              Réduction appliquée : -{discount.toFixed(2)} €
+            </p>
+          )}
         </div>
 
         {/* Formulaire paiement */}
@@ -112,9 +165,7 @@ export default function PageReservationTwo() {
           </h2>
 
           <div className="space-y-1">
-            <label className="text-xs text-[#CCCCCC]">
-              Paiement sécurisé
-            </label>
+            <label className="text-xs text-[#CCCCCC]">Paiement sécurisé</label>
             <select
               value="CB"
               disabled
@@ -122,6 +173,28 @@ export default function PageReservationTwo() {
             >
               <option value="CB">Carte bancaire (via Stripe)</option>
             </select>
+          </div>
+
+          {/* Code promo */}
+          <div className="space-y-1">
+            <label className="text-xs text-[#CCCCCC]">Code promo</label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+                placeholder="Saisissez votre code promo"
+                className="flex-1 rounded-md bg-[#1E1E2F] border border-[#4A90E2] px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+              />
+              <button
+                type="button"
+                onClick={handleApplyPromo}
+                disabled={promoLoading}
+                className="rounded-md bg-[#F5A623] px-4 py-2 text-sm font-semibold text-white hover:bg-[#D98C1F] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {promoLoading ? "Application..." : "Appliquer"}
+              </button>
+            </div>
           </div>
 
           {error && <p className="text-xs text-red-500">{error}</p>}
@@ -147,5 +220,7 @@ export default function PageReservationTwo() {
     </div>
   );
 }
+
+
 
 
