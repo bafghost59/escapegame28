@@ -11,6 +11,12 @@ import {
   getBookedSlotsForEscapeAndDate,
 } from '../models/bookingModel.js';
 
+import {
+  getAllActivePolicies,
+  getPolicyForEscapeAndDelay,
+} from "../models/CancellationPolicyModel.js";
+
+
 
 export const getAllBookingsController = async (req, res) => {
   try {
@@ -175,5 +181,52 @@ export const getAllBookingsByAccountIdController = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const getCancellationPoliciesController = async (req, res) => {
+  try {
+    const policies = await getAllActivePolicies();
+    res.json(policies);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+export const getCancellationInfoForBookingController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const booking = await getBookingById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Réservation non trouvée" });
+    }
+
+    const now = new Date();
+    const sessionDate = new Date(booking.hours_selected);
+    const diffMs = sessionDate - now;
+    const hoursBefore = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60)));
+
+    const policy = await getPolicyForEscapeAndDelay(
+      booking.escape_id,
+      hoursBefore
+    );
+
+    if (!policy) {
+      return res.json({
+        canCancel: false,
+        refundPercent: 0,
+        hoursBefore,
+      });
+    }
+
+    return res.json({
+      canCancel: policy.refund_percent > 0,
+      refundPercent: policy.refund_percent,
+      hoursBefore,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
