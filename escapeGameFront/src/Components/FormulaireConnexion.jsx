@@ -5,7 +5,6 @@ import PageInscription from "../Pages/PageInscription.jsx";
 
 
 export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
-
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,8 +13,10 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
     e.preventDefault();
     try {
       const response = await ConnexionService.ConnexionUser(login, password);
+
       if (response.data) {
         const userId = response.data.loginInDbId;
+
         const userData = {
           id: response.data.loginInDbId,
           firstname: response.data.firstname,
@@ -36,9 +37,11 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
       }
     } catch (error) {
       console.error("Identifiant ou mot de passe incorrect", error);
-      alert("Identifiant ou mot de passe incorrect", error);
+      alert("Identifiant ou mot de passe incorrect");
     }
   };
+
+
 
   return (<>
     <main className="flex-1 bg-[#1E1E2F] py-32">
