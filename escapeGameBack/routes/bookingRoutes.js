@@ -13,5 +13,7 @@ router.get('/bookingsByAccountId/:id_account', bookingController.getAllBookingsB
 router.post('/addbooking', bookingController.createBookingController);
 router.put('/bookings/:id', verifyToken, bookingController.updateBookingController);
 router.delete('/bookings/:id', verifyToken, bookingController.deleteBookingController);
+router.get('/cancellation-policies',bookingController.getCancellationPoliciesController);
+router.get('/bookings/:id/cancellation-info',bookingController.getCancellationInfoForBookingController);
 
 export default router;
