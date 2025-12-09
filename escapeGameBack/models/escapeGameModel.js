@@ -11,8 +11,7 @@ export const getAllEscapes = async () => {
          price_escape,
          location,
          photo_escape,
-         video,
-         tags
+         video
   FROM escapeGame;
 `;
 

@@ -132,7 +132,9 @@ export const ConnexionAccount = async (req, res) => {
 return res.status(200).json({
       message: "Connexion réussie",
      loginInDbId: loginInDb.id_account,
-      token
+      token,
+   firstname: loginInDb.firstname, 
+  login: loginInDb.login 
     });
   } catch (error) {
     console.error(error);

@@ -13,7 +13,7 @@ export default function SidebarClient({
   ongletActif,
   setOngletActif,
   openMobile,
-  setOpenMobile,
+  setOpenMobile, setIsLoggedIn, setUser
 }) {
   const navigate = useNavigate();
   const handleSelect = (onglet) => {
@@ -25,7 +25,8 @@ export default function SidebarClient({
     
     localStorage.removeItem("account_id");
     localStorage.removeItem("user_id");
-
+    setUser(null);
+    setIsLoggedIn(false);
     navigate("/connexion"); 
   };
 
@@ -82,7 +83,7 @@ export default function SidebarClient({
           </SidebarItem>
           <SidebarItem
             icon={CiLogout}
-            className="cursor-pointer hover:bg-slate-800/70"
+            className="cursor-pointer hover:bg-slate-800/70 "
             onClick={() => handleLogout()}
           >
             Se déconnecter

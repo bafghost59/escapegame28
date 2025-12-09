@@ -4,8 +4,8 @@ import ConnexionService from "../Services/ConnexionService.js"
 import PageInscription from "../Pages/PageInscription.jsx";
 
 
-export default function FormulaireConnexion({ setIsLoggedIn }) {
-    const id = localStorage.getItem("user_id");
+export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
+
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -16,9 +16,16 @@ export default function FormulaireConnexion({ setIsLoggedIn }) {
       const response = await ConnexionService.ConnexionUser(login, password);
 if (response.data) {
   const userId = response.data.loginInDbId;
-  localStorage.setItem("user_id", userId);
-
-  setIsLoggedIn(true);
+  const userData = {
+  id: response.data.loginInDbId,
+  firstname: response.data.firstname,
+  login: response.data.login,
+  token: response.data.token,
+};
+localStorage.setItem("user", JSON.stringify(userData));
+localStorage.setItem("user_id", userId);
+setIsLoggedIn(true);
+setUser(userData);
 
   if (userId === 6) {
     navigate("/admin");

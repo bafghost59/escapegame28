@@ -1,8 +1,8 @@
 import FormulaireConnexion from "../Components/FormulaireConnexion";
 
-const PageConnexion = ({setIsLoggedIn}) => {
+const PageConnexion = ({setIsLoggedIn, setUser}) => {
   return (<>
-  <FormulaireConnexion setIsLoggedIn={setIsLoggedIn} />
+  <FormulaireConnexion setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
   </>
   );
 };
