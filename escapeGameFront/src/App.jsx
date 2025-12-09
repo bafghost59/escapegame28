@@ -10,10 +10,11 @@ import PageCatalogue from './Pages/PageCatalogue.jsx';
 import { Route, Routes } from "react-router-dom";
 import PageEscapeDetail from './Pages/PageEscapeDetail';
 import PageSupport from './Pages/PageSupport.jsx';
-import PageForgetMdp from './Pages/PageForgetMdp.jsx'
-import PageProfilUser from './Pages/PageProfilUser.jsx'
-import { useState } from 'react'
-
+import PageForgetMdp from './Pages/PageForgetMdp.jsx';
+import PageProfilUser from './Pages/PageProfilUser.jsx';
+import { useState } from 'react';
+import PageReservationTwo from './Pages/PageReservationTwo.jsx';
+import PageReservationThree from "./Pages/PageReservationThree.jsx";
 import PageReservationOne from './Pages/PageReservationOne.jsx';
 
 function App() {
@@ -41,6 +42,8 @@ const [isLoggedIn, setIsLoggedIn] = useState(
           <Route path="/Profil" element={<PageProfilUser />} />
           <Route path="/catalogue/:id" element={<PageEscapeDetail />} />
           <Route path="/reservation/:id" element={<PageReservationOne />} />
+          <Route path="/reservation/:id/paiement" element={<PageReservationTwo />} />
+          <Route path="/reservation/:id/confirmation" element={<PageReservationThree />} />
         </Routes>
       </main>
 

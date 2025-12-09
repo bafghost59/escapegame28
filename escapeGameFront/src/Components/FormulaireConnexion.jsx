@@ -5,39 +5,44 @@ import PageInscription from "../Pages/PageInscription.jsx";
 
 
 export default function FormulaireConnexion({ setIsLoggedIn }) {
-    const id = localStorage.getItem("user_id");
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    
-    const handleSubmit = async (e) => {
+  const id = localStorage.getItem("user_id");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await ConnexionService.ConnexionUser(login, password);
-if (response.data) {
-  const userId = response.data.loginInDbId;
-  localStorage.setItem("user_id", userId);
+      if (response.data) {
+        const userId = response.data.loginInDbId;
+        const token = response.data.token;           // <-- récupère le token
 
-  setIsLoggedIn(true);
+        localStorage.setItem("user_id", userId);
+        localStorage.setItem("token", token);        // <-- stocke le token
 
-  if (userId === 6) {
-    navigate("/admin");
-  } else {
-    navigate("/Profil");
-  }
-}
+        setIsLoggedIn(true);
+
+        if (userId === 6) {
+          navigate("/admin");
+        } else {
+          navigate("/Profil");
+        }
+      }
+
     } catch (error) {
       console.error("Identifiant ou mot de passe incorrect", error);
       alert("Identifiant ou mot de passe incorrect", error);
     }
-    };
+  };
 
-    return ( <>
-            <main className="flex-1 bg-[#1E1E2F] py-32">
+  return (<>
+    <main className="flex-1 bg-[#1E1E2F] py-32">
       <div className="mt-32 max-w-xl mx-auto rounded-3xl bg-white/100 border-2 border-[#4A90E2] backdrop-blur-xl shadow-[0_25px_80px_rgba(0,0,0,0.8)] px-7 py-9">
-              <h1 className="mb-8 text-center text-2xl font-bold text-[#1E1E2F]">
-        Connexion à votre espace
-      </h1>
+        <h1 className="mb-8 text-center text-2xl font-bold text-[#1E1E2F]">
+          Connexion à votre espace
+        </h1>
 
         <form className="max-w-sm mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg" onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-6 group">
@@ -84,20 +89,20 @@ if (response.data) {
           >
             Connexion
           </button>
-                        <p
-                onClick={() => { navigate('/forgotPassword'); }}
-                className="underline cursor-pointer mt-6 text-blue-700 text-center"
-              >
-                Mot de passe oublié ?
-              </p>
-              <p
-                onClick={() => { navigate('/inscription/'); }}
-                className="underline cursor-pointer mt-2 text-blue-700 text-center"
-              >
-                Pas encore de compte ? Inscrivez-vous ici!
-              </p>
+          <p
+            onClick={() => { navigate('/forgotPassword'); }}
+            className="underline cursor-pointer mt-6 text-blue-700 text-center"
+          >
+            Mot de passe oublié ?
+          </p>
+          <p
+            onClick={() => { navigate('/inscription/'); }}
+            className="underline cursor-pointer mt-2 text-blue-700 text-center"
+          >
+            Pas encore de compte ? Inscrivez-vous ici!
+          </p>
         </form>
       </div>
     </main>
-        </> );
+  </>);
 }

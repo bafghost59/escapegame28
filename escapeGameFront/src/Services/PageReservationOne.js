@@ -10,29 +10,18 @@ export async function createBooking({
   user_id,
   status = "en attente",
 }) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    throw new Error("Utilisateur non authentifié");
-  }
-
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/bookings`,
+      `${API_BASE_URL}/addbooking`,
       {
         date_booking,
         hours_selected,
         status,
         user_id,
         escape_id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
+      }
     );
 
-    // axios met la réponse dans response.data
     return response.data;
   } catch (error) {
     const message =
@@ -41,4 +30,26 @@ export async function createBooking({
     throw new Error(message);
   }
 }
+
+
+export async function getAvailableSlots({ escape_id, date }) {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/bookings/availability`,
+      {
+        params: {
+          escapeId: escape_id,
+          date,             // format 'YYYY-MM-DD'
+        },
+      }
+    );
+    return response.data.slots; // ["10:00", "14:00", ...]
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      'Erreur lors du chargement des créneaux disponibles';
+    throw new Error(message);
+  }
+}
+
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getEscapeById } from "../Services/PageCatalogue";
-import { createBooking } from "../Services/PageReservationOne";
+import { createBooking, getAvailableSlots } from "../Services/PageReservationOne";
 
 function difficultyToLabel(difficult) {
   if (difficult === "easy") return "Facile";
@@ -42,7 +42,7 @@ export default function PageReservationOne() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
-  // 1) Charger l’escape choisi
+  // 1) Charger l'escape choisi
   useEffect(() => {
     async function fetchEscape() {
       try {
@@ -74,18 +74,11 @@ export default function PageReservationOne() {
       setSelectedSlot("");
 
       try {
-        // TODO: à remplacer par appel API réel
-        // const apiSlots = await getSlotsForEscapeAndDate(escape.id_escape, selectedDate);
-        // setSlots(apiSlots);
-
-        // MOCK provisoire en attendant l’API
-        const mockSlots = [
-          "10:00",
-          "14:00",
-          "16:30",
-          "19:00",
-        ];
-        setSlots(mockSlots);
+        const apiSlots = await getAvailableSlots({
+          escape_id: escape.id_escape,
+          date: selectedDate, // "YYYY-MM-DD"
+        });
+        setSlots(apiSlots);
       } catch (err) {
         console.error(err);
         setErrorSlots("Impossible de charger les créneaux disponibles.");
@@ -111,9 +104,25 @@ export default function PageReservationOne() {
       return;
     }
 
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("user_id");
     if (!userId) {
       setSubmitError("Vous devez être connecté pour réserver.");
+      return;
+    }
+
+    const minPlayers = escape.min_players ?? 2;
+    const maxPlayers = escape.max_players ?? 12;
+    const playersNumber = Number(players);
+
+    if (!playersNumber || Number.isNaN(playersNumber)) {
+      setSubmitError("Merci de saisir un nombre de joueurs valide.");
+      return;
+    }
+
+    if (playersNumber < minPlayers || playersNumber > maxPlayers) {
+      setSubmitError(
+        `Le nombre de joueurs doit être entre ${minPlayers} et ${maxPlayers}.`
+      );
       return;
     }
 
@@ -138,7 +147,8 @@ export default function PageReservationOne() {
             escapeId: escape.id_escape,
             date: selectedDate,
             time: selectedSlot,
-            players,
+            players: playersNumber,
+            price_escape: escape.price_escape,
           },
         });
       } catch (err) {
@@ -149,7 +159,6 @@ export default function PageReservationOne() {
       }
     })();
   }
-
 
   if (loadingEscape) {
     return (
@@ -166,6 +175,9 @@ export default function PageReservationOne() {
       </div>
     );
   }
+
+  const minPlayers = escape.min_players ?? 2;
+  const maxPlayers = escape.max_players ?? 12;
 
   const fieldClasses =
     "w-full rounded-md bg-[#2C2C3A] border border-[#F5A623] px-3 py-2 text-sm text-white placeholder-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#F5A623]";
@@ -252,9 +264,7 @@ export default function PageReservationOne() {
 
             {/* Date */}
             <div className="space-y-1">
-              <label className="text-xs text-[#CCCCCC]">
-                Date
-              </label>
+              <label className="text-xs text-[#CCCCCC]">Date</label>
               <input
                 type="date"
                 value={selectedDate}
@@ -271,7 +281,9 @@ export default function PageReservationOne() {
                 Créneau horaire
               </label>
               {loadingSlots ? (
-                <p className="text-xs text-[#CCCCCC]">Chargement des créneaux...</p>
+                <p className="text-xs text-[#CCCCCC]">
+                  Chargement des créneaux...
+                </p>
               ) : errorSlots ? (
                 <p className="text-xs text-red-500">{errorSlots}</p>
               ) : (
@@ -287,7 +299,7 @@ export default function PageReservationOne() {
                       ? slots.length
                         ? "Choisissez un créneau"
                         : "Aucun créneau disponible"
-                      : "Choisissez d’abord une date"}
+                      : "Choisissez d'abord une date"}
                   </option>
                   {slots.map((slot) => (
                     <option key={slot} value={slot}>
@@ -305,10 +317,23 @@ export default function PageReservationOne() {
               </label>
               <input
                 type="number"
-                min={escape.min_players || 1}
-                max={escape.max_players || 12}
+                min={minPlayers}
+                max={maxPlayers}
                 value={players}
-                onChange={(e) => setPlayers(Number(e.target.value))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "") {
+                    setPlayers("");
+                    return;
+                  }
+                  let num = Number(value);
+                  if (Number.isNaN(num)) return;
+
+                  if (num < minPlayers) num = minPlayers;
+                  if (num > maxPlayers) num = maxPlayers;
+
+                  setPlayers(num);
+                }}
                 className={fieldClasses}
                 required
               />
@@ -345,4 +370,5 @@ export default function PageReservationOne() {
     </div>
   );
 }
+
 
