@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import jsPDF from "jspdf";
+// import jsPDF from "jspdf";
 
 export default function PageReservationThree() {
   const navigate = useNavigate();
