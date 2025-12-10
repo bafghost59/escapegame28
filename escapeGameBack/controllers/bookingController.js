@@ -12,6 +12,8 @@ import {
   updateBookingStatusById,
 } from '../models/bookingModel.js';
 
+import { createPayment } from "../models/paymentModel.js"; 
+
 import {
   getAllActivePolicies,
   getPolicyForEscapeAndDelay,
@@ -59,17 +61,53 @@ export const getBookingByIdController = async (req, res) => {
 
 export const getConfirmationOfBookingById = async (req, res) => {
   try {
+    
     const { id } = req.params;
-    const result = await updateBookingStatusById(id);
-    if (result.affectedRows > 0) {
-  return res.status(200).json({ message: "Réservation mise à jour" });
-} else {
-  return res.status(404).json({ message: "Réservation non trouvée" });
-}
+    const { total_payment, mode_payment } = req.body; 
+
+    
+    if (!total_payment || !mode_payment) {
+      return res
+        .status(400)
+        .json({ message: "total_payment et mode_payment sont requis" });
+    }
+
+    
+    const booking = await getBookingById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Réservation non trouvée" });
+    }
+
+    
+    const updateResult = await updateBookingStatusById(id);
+    if (updateResult.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ message: "Erreur lors de la mise à jour du statut" });
+    }
+
+    
+    const paymentResult = await createPayment({
+      total_payment,
+      date_payment: new Date(),
+      mode_payment,
+      booking_id: id,
+    });
+
+    
+    return res.status(200).json({
+      message: "Paiement confirmé et statut mis à jour",
+      booking,
+      id_payment: paymentResult.insertId,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la mise à jour' });
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Erreur lors de la confirmation de la réservation" });
   }
-}
+};
+
 
 
 export const createBookingController = async (req, res) => {

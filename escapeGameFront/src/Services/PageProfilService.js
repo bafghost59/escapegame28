@@ -33,11 +33,14 @@ function deleteBooking(bookingId) {
   });
 }
 
-function confirmPayment(bookingId) {
-  const token = localStorage.getItem("token") || "";
-  return axios.patch(
-    `http://localhost:3000/api/bookings/${bookingId}/confirm-payment`,
-    {}, 
+async function confirmPayment(id, total) {
+  const token = localStorage.getItem("token");
+  await axios.patch(
+    `http://localhost:3000/api/bookings/${id}/confirm-payment`,
+    {
+      total_payment: Number(total),
+      mode_payment: "Stripe",
+    },
     {
       headers: {
         Authorization: `Bearer ${token}`,
