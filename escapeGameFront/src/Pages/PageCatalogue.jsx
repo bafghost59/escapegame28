@@ -3,13 +3,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import Card from "../Components/Cards";
 import { getAllEscapes } from "../Services/PageCatalogue";
 
-function difficultyToRating(difficult) {
-  if (difficult === "easy") return 3;
-  if (difficult === "medium") return 4;
-  if (difficult === "hard") return 5;
-  return 4;
-}
-
 function difficultyToLabel(difficult) {
   if (difficult === "easy") return "Facile";
   if (difficult === "medium") return "Intermédiaire";
@@ -242,13 +235,18 @@ export default function PageCatalogue() {
               subtitle={escape.location}
               description={escape.describe}
               price={`${escape.price_escape} €`}
-              rating={difficultyToRating(escape.difficult)}
+              rating={
+                escape.avg_rating != null && escape.total_reviews > 0
+                  ? Math.round(escape.avg_rating)
+                  : 0
+              }
               difficultyLabel={difficultyToLabel(escape.difficult)}
               durationLabel={durationToLabel(escape.duration)}
               imageUrl={escape.photo_escape}
               detailUrl={`/catalogue/${escape.id_escape}`}
               tags={escape.tagsArray}
-              reservationUrl={`/reservation/${escape.id_escape}`}   // NEW
+              reservationUrl={`/reservation/${escape.id_escape}`}
+              totalReviews={escape.total_reviews}
             />
           </div>
         ))}
