@@ -230,12 +230,17 @@ export const getAllBookingsByAccountIdController = async (req, res) => {
   try {
     const { id_account } = req.params;
     const bookingsAccountId = await getBookingsByUserId(id_account);
+
+    console.log("id_account reçu :", id_account);
+    console.log("Résultats BDD :", bookingsAccountId);
+
     res.json(bookingsAccountId);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Erreur serveur' });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
 
 export const getCancellationPoliciesController = async (req, res) => {
   try {
