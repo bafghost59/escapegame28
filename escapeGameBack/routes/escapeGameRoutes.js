@@ -4,8 +4,11 @@ import verifyToken from '../middlewares/checkToken.js';
 
 const router = express.Router();
 
-router.get('/escapes',  escapeGameController.getAllEscapesController);
+
+router.get('/escapes/with-ratings', escapeGameController.getEscapesWithRatingsController);
 router.get('/escapes/light', verifyToken, escapeGameController.getEscapesLightController);
+router.get('/escapes', escapeGameController.getAllEscapesController);
+
 router.get('/escapes/:id', escapeGameController.getEscapeByIdController);
 router.post('/escapes', verifyToken, escapeGameController.createEscapeController);
 router.put('/escapes/:id', verifyToken, escapeGameController.updateEscapeController);

@@ -7,6 +7,8 @@ import {
   createFeedbackController,
   updateFeedbackController,
   deleteFeedbackController,
+  getFeedbackStatsByEscapeIdController,
+  getFeedbacksByEscapeIdController
 } from '../controllers/feedbackController.js';
 import verifyToken from '../middlewares/checkToken.js';
 
@@ -18,5 +20,7 @@ router.get('/feedbacks/:id', getFeedbackByIdController);
 router.post('/feedbacks', verifyToken, createFeedbackController);
 router.put('/feedbacks/:id', verifyToken, updateFeedbackController);
 router.delete('/feedbacks/:id', verifyToken, deleteFeedbackController);
+router.get("/feedbacks/escape/:escapeId", getFeedbacksByEscapeIdController);
+router.get("/feedbacks/escape/:escapeId/stats", getFeedbackStatsByEscapeIdController);
 
 export default router;

@@ -6,6 +6,7 @@ import {
   createEscape,
   updateEscape,
   deleteEscape,
+  getEscapesWithRatings,
 } from '../models/escapeGameModel.js';
 
 
@@ -29,6 +30,15 @@ export const getEscapesLightController = async (req, res) => {
   }
 };
 
+export const getEscapesWithRatingsController = async (req, res) => {
+  try {
+    const escapes = await getEscapesWithRatings();
+    res.json(escapes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
 
 export const getEscapeByIdController = async (req, res) => {
   try {
