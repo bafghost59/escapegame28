@@ -15,5 +15,5 @@ router.put('/bookings/:id', verifyToken, bookingController.updateBookingControll
 router.delete('/bookings/:id', verifyToken, bookingController.deleteBookingController);
 router.get('/cancellation-policies',bookingController.getCancellationPoliciesController);
 router.get('/bookings/:id/cancellation-info',bookingController.getCancellationInfoForBookingController);
-// router.patch('/bookings/:id/confirm-payement', )
+router.patch('/bookings/:id/confirm-payment', verifyToken, bookingController.getConfirmationOfBookingById)
 export default router;

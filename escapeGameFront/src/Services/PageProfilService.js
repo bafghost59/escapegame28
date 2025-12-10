@@ -33,5 +33,17 @@ function deleteBooking(bookingId) {
   });
 }
 
+function confirmPayment(bookingId) {
+  const token = localStorage.getItem("token") || "";
+  return axios.patch(
+    `http://localhost:3000/api/bookings/${bookingId}/confirm-payment`,
+    {}, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
 
-export default { getAllBookingsById, getAllInfoByUser, updateUser, updateBooking, deleteBooking};
+export default { getAllBookingsById, getAllInfoByUser, updateUser, updateBooking, deleteBooking, confirmPayment};

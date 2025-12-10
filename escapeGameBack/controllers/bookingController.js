@@ -9,6 +9,7 @@ import {
   checkAvailability,
   getBookingsByUserId,
   getBookedSlotsForEscapeAndDate,
+  updateBookingStatusById,
 } from '../models/bookingModel.js';
 
 import {
@@ -59,9 +60,14 @@ export const getBookingByIdController = async (req, res) => {
 export const getConfirmationOfBookingById = async (req, res) => {
   try {
     const { id } = req.params;
-    
+    const result = await updateBookingStatusById(id);
+    if (result.affectedRows > 0) {
+  return res.status(200).json({ message: "Réservation mise à jour" });
+} else {
+  return res.status(404).json({ message: "Réservation non trouvée" });
+}
   } catch (error) {
-    
+    res.status(500).json({ message: 'Erreur lors de la mise à jour' });
   }
 }
 

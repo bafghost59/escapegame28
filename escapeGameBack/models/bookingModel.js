@@ -63,6 +63,13 @@ export const createBooking = async ({
   return response;              
 };
 
+export const updateBookingStatusById = async (id_booking) => {
+  const bookingStatusUpdated = `UPDATE booking SET status = 'confirmé' WHERE id_booking = ?`;
+
+  const [response] = await bdd.query(bookingStatusUpdated, [id_booking])
+  return response;
+}
+
 
 export const updateBooking = async (id_booking, {
   date_booking,
