@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import jsPDF from "jspdf";
 import axios from "axios";
+import PageProfilService from "../Services/PageProfilService.js";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
@@ -88,7 +89,26 @@ export default function PageReservationThree() {
     );
 
     doc.save(`facture-reservation-${id}.pdf`);
+
   };
+  
+  const confirmPaymentStatus = async () => {
+console.log("confirmPaymentStatus lancé avec", id, paymentStatus);
+    try {
+      if (id && paymentStatus === "success") {
+        await PageProfilService.confirmPayment(id);
+        console.log("appel API fait");
+      } 
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du paiement", error);
+    } 
+  }
+
+useEffect(() => {
+  console.log("useEffect confirmPaymentStatus appelé");
+  confirmPaymentStatus();
+}, [id, paymentStatus]);
+
 
   return (
     <div className="min-h-screen w-full bg-[#1E1E2F] text-[#EAEAEA] px-8 py-10">
