@@ -34,8 +34,38 @@ export const getAllBookingsWithDetails = async () => {
 
 
 export const getBookingById = async (id_booking) => {
-  const bookingById = 'SELECT * FROM booking WHERE id_booking = ?';
-  const [rows] = await bdd.query(bookingById, [id_booking]);
+  const sql = `
+    SELECT
+      b.id_booking,
+      b.date_booking,
+      b.hours_selected,
+      b.status,
+
+      u.lastname,
+      u.firstname,
+      u.email,
+      u.adress,
+      u.postal_code,
+      u.city,
+
+      e.title       AS escape_title,
+      e.location    AS escape_location,
+      e.price_escape,
+
+      p.total_payment,
+      p.date_payment,
+      p.mode_payment
+    FROM booking AS b
+    INNER JOIN users AS u
+      ON b.user_id = u.id_user
+    INNER JOIN escapeGame AS e
+      ON b.escape_id = e.id_escape
+    LEFT JOIN payment AS p
+      ON p.booking_id = b.id_booking
+    WHERE b.id_booking = ?;
+  `;
+
+  const [rows] = await bdd.query(sql, [id_booking]);
   return rows[0] || null;
 };
 
