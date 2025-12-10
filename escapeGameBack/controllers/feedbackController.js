@@ -6,6 +6,9 @@ import {
   createFeedback,
   updateFeedback,
   deleteFeedback,
+  getFeedbackStatsByEscapeId,
+  getFeedbacksByEscapeId,
+  getFeedbackByUserAndEscape
 } from '../models/feedbackModel.js';
 
 
@@ -50,18 +53,19 @@ export const getFeedbackByIdController = async (req, res) => {
 
 export const createFeedbackController = async (req, res) => {
   try {
-    const {
-      rated,
-      user_id,
-      escape_id,
-      rating,
-      photo_feedback,
-    } = req.body;
+    const { rated, user_id, escape_id, rating, photo_feedback } = req.body;
 
     if (rated === undefined || !user_id || !escape_id) {
       return res
         .status(400)
         .json({ message: 'rated, user_id et escape_id sont requis' });
+    }
+
+    const existing = await getFeedbackByUserAndEscape(user_id, escape_id);
+    if (existing) {
+      return res
+        .status(400)
+        .json({ message: 'Vous avez déjà laissé un avis pour ce jeu.' });
     }
 
     const result = await createFeedback({
@@ -81,7 +85,6 @@ export const createFeedbackController = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
-
 
 export const updateFeedbackController = async (req, res) => {
   try {
@@ -128,5 +131,27 @@ export const deleteFeedbackController = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const getFeedbacksByEscapeIdController = async (req, res) => {
+  try {
+    const { escapeId } = req.params;
+    const feedbacks = await getFeedbacksByEscapeId(escapeId);
+    res.json(feedbacks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+export const getFeedbackStatsByEscapeIdController = async (req, res) => {
+  try {
+    const { escapeId } = req.params;
+    const stats = await getFeedbackStatsByEscapeId(escapeId);
+    res.json(stats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };

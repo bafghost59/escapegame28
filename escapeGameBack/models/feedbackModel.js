@@ -105,3 +105,39 @@ export const deleteFeedback = async (id_feedback) => {
 };
 
 export default getAllFeedbacks;
+
+export const getFeedbacksByEscapeId = async (escape_id) => {
+  const sql = `
+    SELECT id_feedback, rated, rating, photo_feedback, user_id, escape_id
+    FROM feedback
+    WHERE escape_id = ?
+    ORDER BY id_feedback DESC
+  `;
+  const [rows] = await bdd.query(sql, [escape_id]);
+  return rows;
+};
+
+export const getFeedbackStatsByEscapeId = async (escape_id) => {
+  const sql = `
+    SELECT
+      escape_id,
+      AVG(rated) AS avg_rating,
+      COUNT(*) AS total_reviews
+    FROM feedback
+    WHERE escape_id = ?
+    GROUP BY escape_id
+  `;
+  const [rows] = await bdd.query(sql, [escape_id]);
+  return rows[0] || { escape_id, avg_rating: null, total_reviews: 0 };
+};
+
+export const getFeedbackByUserAndEscape = async (user_id, escape_id) => {
+  const sql = `
+    SELECT *
+    FROM feedback
+    WHERE user_id = ? AND escape_id = ?
+    LIMIT 1
+  `;
+  const [rows] = await bdd.query(sql, [user_id, escape_id]);
+  return rows[0] || null;
+};
