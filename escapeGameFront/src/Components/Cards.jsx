@@ -8,13 +8,14 @@ export default function Card({
   subtitle = "Subtitle",
   description = "Lorem ipsum...",
   price = "xx.xx €",
-  rating = 4,
+  rating = 0,
   maxRating = 5,
   difficultyLabel = "Difficulté",
   durationLabel = "Durée",
   detailUrl,         // URL de la page détail
   tags = [],         // tableau de tags
   reservationUrl,
+  totalReviews = null,
 }) {
   const stars = Array.from({ length: maxRating }, (_, i) => (
     <span
@@ -74,11 +75,19 @@ export default function Card({
         )}
 
         <div className="pt-2">
-          <div className="flex gap-1 text-xl">{stars}</div>
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1 text-xl">{stars}</div>
+            {typeof totalReviews === "number" && totalReviews > 0 && (
+              <span className="text-xs text-[#CCCCCC]">
+                ({totalReviews} avis)
+              </span>
+            )}
+          </div>
           <p className="mt-1 text-sm text-[#EAEAEA]">
             Prix : <span className="font-semibold text-white">{price}</span>
           </p>
         </div>
+
 
         <div className="pt-3 mt-auto">
           {reservationUrl ? (
