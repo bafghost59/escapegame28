@@ -1,13 +1,10 @@
 import React from "react";
-import videoSrc from "../assets/demo.mp4";
 
-
-
-export default function Example() {
+export default function Example({ src }) {
   return (
-    <video className="h-full w-full rounded-lg" controls>
-      <source src="https://docs.material-tailwind.com/demo.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
+    <video className="h-80 w-full object-cover rounded-lg" controls>
+      <source src={src} type="video/mp4" />
+      Votre navigateur ne supporte pas la vidéo.
     </video>
   );
 }

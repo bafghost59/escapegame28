@@ -6,17 +6,17 @@ import slide3 from "../assets/imgcarrousel3.png";
 
 function Carrousel() {
   return (
-    <div
+    <div // conteneur principal du carrousel
       id="carouselExample"
       className="carousel slide"
-      data-bs-ride="carousel"
+      data-bs-ride="carousel" // défilement automatique des slides
     >
       {/* Slides */}
       <div className="carousel-inner rounded">
         <div className="carousel-item active">
           <img
             src={'https://www.planetexperiences.fr/images/home.jpg'}
-            className="d-block w-100"
+            className="d-block w-100" // toute la largeur du conteneur
             alt="Slide 1"
           />
         </div>
@@ -45,7 +45,7 @@ function Carrousel() {
       >
         <span
           className="carousel-control-prev-icon"
-          style={{ filter: "invert(1)" }}
+          style={{ filter: "invert(1)" }} // pour que les icones soient visibles sur fond c
           aria-hidden="true"
         ></span>
         <span className="visually-hidden">Avant</span>

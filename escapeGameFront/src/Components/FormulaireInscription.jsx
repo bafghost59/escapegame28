@@ -2,27 +2,27 @@ import { useState } from "react";
 import InscriptionService from "../Services/InscriptionService";
 import { useNavigate } from "react-router-dom";
 
-export default function FormulaireInscription() {
+export default function FormulaireInscription() { // Composant de formulaire d'inscription
   const [pseudo, setPseudo] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState(""); // État pour la confirmation du mot de passe
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [adress, setAdress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook pour la navigation
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => { // Gestion de la soumission du formulaire
+    e.preventDefault(); // Empêche le rechargement de la page
 
-    if (password !== passwordConfirm) {
+    if (password !== passwordConfirm) { // Vérification de la correspondance des mots de passe
       alert("Les mots de passe ne correspondent pas");
       return;
     }
     try {
-      const response = await InscriptionService.RegisterUser(
+      const response = await InscriptionService.RegisterUser( // Appel au service d'inscription
         pseudo,
         password,
         lastname,
@@ -42,24 +42,24 @@ export default function FormulaireInscription() {
 
   return (
     <>
-      <main className="flex-1 bg-[#1E1E2F]/100">
-        <div className="min-h-screen flex flex-col">
-          <div className="mt-32 max-w-xl mx-auto rounded-3xl bg-white/100 border-2 border-[#4A90E2] backdrop-blur-xl shadow-[0_25px_80px_rgba(0,0,0,0.8)] px-7 py-9">
+      <main className="flex-1 bg-[#1E1E2F]/100"> {/* Fond sombre avec opacité */}
+        <div className="min-h-screen flex flex-col"> {/* Conteneur principal */}
+          <div className="mt-32 max-w-xl mx-auto rounded-3xl bg-white/100 border-2 border-[#4A90E2] backdrop-blur-xl shadow-[0_25px_80px_rgba(0,0,0,0.8)] px-7 py-9"> 
             <h1 className="mb-8 text-center text-2xl font-bold text-[#1E1E2F]">
               Création de votre compte
             </h1>
 
-            <form className="max-w-md mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg space-y-6" onSubmit={handleSubmit}>
-              <div className="space-y-6">
-                <div className="relative z-0 w-full group">
-                  <input
+            <form className="max-w-md mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg space-y-6" onSubmit={handleSubmit}> {/* Formulaire avec gestion de la soumission */} 
+              <div className="space-y-6"> {/* Espacement entre les champs */} 
+                <div className="relative z-0 w-full group"> {/* Champ Pseudo */}
+                  <input 
                     type="text"
                     name="login"
-                    id="login"
-                    className="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:outline-none focus:border-[#F5A623] peer"
-                    placeholder=" "
-                    value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
+                    id="login" 
+                    className="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:outline-none focus:border-[#F5A623] peer" 
+                    placeholder=" " 
+                    value={pseudo} 
+                    onChange={(e) => setPseudo(e.target.value)} 
                     required
                   />
                   <label
@@ -101,7 +101,7 @@ export default function FormulaireInscription() {
                     required
                   />
                   <label
-                    htmlFor="floating_repeat_password"
+                    htmlFor="floating_repeat_password" 
                     className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[#F5A623]"
                   >
                     Confirmez votre mot de passe

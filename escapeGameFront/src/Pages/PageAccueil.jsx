@@ -12,9 +12,9 @@ function PageAccueil() {
       <style>
         {`
           a {
-            text-decoration: none;
+            text-decoration: none; 
           }
-        `}
+        `} 
       </style>
 
 
@@ -36,10 +36,9 @@ function PageAccueil() {
           </p>
 
           {/* Bouton Réserver */}
-          <button className="mt-6 px-6 py-3 bg-[#F5A623] text-white font-roboto font-bold text-[18px] rounded hover:bg-[#D98C1F] transition-colors duration-300 " onClick={() => navigate("/catalogue")}>
+          <button className="mt-6 px-6 py-3 bg-[#F5A623] text-white font-roboto font-bold text-[18px] rounded hover:bg-[#D98C1F] transition-colors duration-300 " onClick={() => navigate("/catalogue")}> {/* Ajout de la navigation au clic */}
             Réserver
           </button>
-          </Link>
         </div>
       </section>
 

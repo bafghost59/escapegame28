@@ -1,13 +1,19 @@
 // src/Pages/PageEscapeDetail.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getEscapeById } from "../Services/PageCatalogue";
 import axios from "axios";
+import { getEscapeById } from "../Services/PageCatalogue";
 import {
   getFeedbacksByEscapeId,
   getFeedbackStatsByEscapeId,
   createFeedback,
 } from "../Services/PageAvis";
+import Example from "../Components/Example";
+import videoPyramide from "../assets/pyramide.mp4";
+import videoBraquage from "../assets/braquage.mp4";
+import videoManoir from "../assets/manoir.mp4";
+import videoPrison from "../assets/prison.mp4";
+import videoZombie from "../assets/zombie.mp4";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
@@ -51,6 +57,15 @@ export default function PageEscapeDetail() {
   const [feedbackError, setFeedbackError] = useState(null);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
+  const videoMap = {
+    pyramide: videoPyramide,
+    braquage: videoBraquage,
+    manoir: videoManoir,
+    prison: videoPrison,
+    zombie: videoZombie,
+  };
+
+  // ------------------ Fetch escape ------------------
   useEffect(() => {
     async function fetchEscape() {
       try {
@@ -66,6 +81,7 @@ export default function PageEscapeDetail() {
     fetchEscape();
   }, [id]);
 
+  // ------------------ Fetch cancellation policies ------------------
   useEffect(() => {
     async function fetchPolicies() {
       try {
@@ -81,6 +97,7 @@ export default function PageEscapeDetail() {
     fetchPolicies();
   }, []);
 
+  // ------------------ Fetch feedbacks ------------------
   useEffect(() => {
     async function fetchFeedback() {
       try {
@@ -98,6 +115,7 @@ export default function PageEscapeDetail() {
     fetchFeedback();
   }, [id]);
 
+  // ------------------ Submit feedback ------------------
   async function handleSubmitFeedback(e) {
     e.preventDefault();
     setFeedbackError(null);
@@ -111,13 +129,13 @@ export default function PageEscapeDetail() {
     }
 
     const userHasAlreadyCommented =
-      user && feedbacks.some((f) => f.user_id === user.id);
+      feedbacks.some((f) => f.user_id === user.id);
 
     if (!newRating && !userHasAlreadyCommented) {
       setFeedbackError("Merci de choisir une note.");
       return;
     }
-    
+
     setFeedbackLoading(true);
     try {
       await createFeedback({
@@ -143,8 +161,9 @@ export default function PageEscapeDetail() {
     } finally {
       setFeedbackLoading(false);
     }
-  }  // <--- fermer handleSubmitFeedback ici
+  }
 
+  // ------------------ Loading & Error ------------------
   if (loading) {
     return (
       <div className="min-h-screen bg-[#1E1E2F] flex items-center justify-center">
@@ -152,7 +171,6 @@ export default function PageEscapeDetail() {
       </div>
     );
   }
-
 
   if (error || !escape) {
     return (
@@ -162,51 +180,53 @@ export default function PageEscapeDetail() {
     );
   }
 
+  // ------------------ Video ------------------
+  const videoKey = escape.video?.toLowerCase().replace(".mp4", "");
+  const videoSrc = videoKey ? videoMap[videoKey] : null;
 
+  // ------------------ Ratings ------------------
   const avgRatingNumber =
     feedbackStats && feedbackStats.avg_rating != null
       ? Number(feedbackStats.avg_rating)
       : null;
 
+  // ------------------ Tags ------------------
   const tags =
     typeof escape.tags === "string"
-      ? escape.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean)
+      ? escape.tags.split(",").map((t) => t.trim()).filter(Boolean)
       : Array.isArray(escape.tags)
         ? escape.tags
         : [];
 
+  // ------------------ Global policies ------------------
   const globalPolicies = (cancellationPolicies || []).filter(
     (p) => p.escape_id === null || typeof p.escape_id === "undefined"
   );
 
-
+  // ------------------ JSX ------------------
   return (
     <div className="w-full bg-[#1E1E2F] text-[#EAEAEA] px-8 py-10">
       <div className="max-w-5xl mx-auto grid gap-8 md:grid-cols-2">
+        {/* Photo + Vidéo */}
         <div>
           <img
             src={escape.photo_escape}
             alt={escape.title}
             className="w-full h-80 object-cover rounded-lg border border-[#4A90E2]"
           />
-          {escape.video && (
-            <video
-              controls
-              src={escape.video}
-              className="mt-4 w-full rounded-lg"
-            />
+          {videoSrc && (
+            <div className="mt-4">
+              <Example src={videoSrc} />
+            </div>
           )}
         </div>
 
+        {/* Infos */}
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            {escape.title}
-          </h1>
+          <h1 className="text-3xl font-bold text-white mb-2">{escape.title}</h1>
           <p className="text-sm mb-2">{escape.location}</p>
 
+          {/* Rating */}
           <div className="flex items-center gap-2 mb-4">
             {avgRatingNumber && !Number.isNaN(avgRatingNumber) ? (
               <>
@@ -232,13 +252,11 @@ export default function PageEscapeDetail() {
                 </span>
               </>
             ) : (
-              <span className="text-sm text-[#CCCCCC]">
-                Aucun avis pour le moment
-              </span>
+              <span className="text-sm text-[#CCCCCC]">Aucun avis pour le moment</span>
             )}
           </div>
 
-
+          {/* Infos supplémentaires */}
           <div className="flex flex-col items-start gap-2 text-sm mb-4">
             <span className="rounded-full border border-[#F5A623] px-3 py-1 text-[#F5A623]">
               {difficultyToLabel(escape.difficult)}
@@ -250,20 +268,16 @@ export default function PageEscapeDetail() {
               </span>
             )}
             <span>
-              Prix :{" "}
-              <span className="font-semibold text-white">
-                {escape.price_escape} €
-              </span>
+              Prix : <span className="font-semibold text-white">{escape.price_escape} €</span>
             </span>
           </div>
 
           <p className="text-sm leading-relaxed mb-6">{escape.describe}</p>
 
+          {/* Tags */}
           {tags.length > 0 && (
             <div className="mb-4">
-              <h2 className="text-lg font-semibold text-[#F5A623] mb-2">
-                Thèmes / Tags
-              </h2>
+              <h2 className="text-lg font-semibold text-[#F5A623] mb-2">Thèmes / Tags</h2>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <span
@@ -279,12 +293,8 @@ export default function PageEscapeDetail() {
 
           {/* Politique d'annulation */}
           <div className="mt-4">
-            <h2 className="text-lg font-semibold text-[#F5A623] mb-2">
-              Politique d&apos;annulation
-            </h2>
-            {policyError && (
-              <p className="text-xs text-red-400">{policyError}</p>
-            )}
+            <h2 className="text-lg font-semibold text-[#F5A623] mb-2">Politique d&apos;annulation</h2>
+            {policyError && <p className="text-xs text-red-400">{policyError}</p>}
             {!policyError && globalPolicies.length > 0 && (
               <ul className="text-xs text-[#CCCCCC] list-disc pl-4 space-y-1">
                 {globalPolicies.map((p, index) => {
@@ -310,20 +320,14 @@ export default function PageEscapeDetail() {
         </div>
       </div>
 
-      {/* Section Avis */}
+      {/* Feedbacks */}
       <div className="mt-10 max-w-5xl mx-auto">
-        <h2 className="text-2xl font-semibold text-[#F5A623] mb-4">
-          Avis des joueurs
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#F5A623] mb-4">Avis des joueurs</h2>
 
-        {feedbackError && (
-          <p className="text-sm text-red-400 mb-2">{feedbackError}</p>
-        )}
+        {feedbackError && <p className="text-sm text-red-400 mb-2">{feedbackError}</p>}
 
         {feedbacks.length === 0 && !feedbackError && (
-          <p className="text-sm text-[#CCCCCC] mb-4">
-            Aucun avis pour le moment.
-          </p>
+          <p className="text-sm text-[#CCCCCC] mb-4">Aucun avis pour le moment.</p>
         )}
 
         {feedbacks.length > 0 && (
@@ -340,9 +344,7 @@ export default function PageEscapeDetail() {
                     ))}
                   </div>
                 </div>
-                {f.rating && (
-                  <p className="text-[#EAEAEA]">{f.rating}</p>
-                )}
+                {f.rating && <p className="text-[#EAEAEA]">{f.rating}</p>}
               </li>
             ))}
           </ul>
@@ -364,9 +366,7 @@ export default function PageEscapeDetail() {
                     key={v}
                     type="button"
                     onClick={() => setNewRating(v)}
-                    className={
-                      v <= newRating ? "text-yellow-400" : "text-gray-600"
-                    }
+                    className={v <= newRating ? "text-yellow-400" : "text-gray-600"}
                   >
                     ★
                   </button>
@@ -397,6 +397,3 @@ export default function PageEscapeDetail() {
     </div>
   );
 }
-
-
-
