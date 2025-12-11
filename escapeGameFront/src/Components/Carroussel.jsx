@@ -15,21 +15,21 @@ function Carrousel() {
       <div className="carousel-inner rounded">
         <div className="carousel-item active">
           <img
-            src={slide1}
+            src={'https://www.planetexperiences.fr/images/home.jpg'}
             className="d-block w-100"
             alt="Slide 1"
           />
         </div>
         <div className="carousel-item">
           <img
-            src={slide2}
+            src={'https://www.francebleu.fr/pikapi/images/6dbd4669-912e-4919-a387-8b5bd08d9374/1200x680?webp=false'}
             className="d-block w-100"
             alt="Slide 2"
           />
         </div>
         <div className="carousel-item">
           <img
-            src={slide3}
+            src={'https://profpower.lelivrescolaire.fr/wp-content/uploads/2018/02/Capture-d%E2%80%99e%CC%81cran-2018-02-04-a%CC%80-14.41.58.png'}
             className="d-block w-100"
             alt="Slide 3"
           />

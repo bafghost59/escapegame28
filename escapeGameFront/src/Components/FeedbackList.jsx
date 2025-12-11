@@ -1,6 +1,8 @@
-const FeedbackList = () => {
-    return (<>
+export default function FeedbackList  () {
+   
+   
+   return (<>
+
     </>);
 }
  
-export default FeedbackList;

@@ -6,6 +6,14 @@ function getAllBookingsById(id_account) {
     return axios.get(`http://localhost:3000/api/bookingsByAccountId/${id_account}`);
 }
 
+function getInvoicesOfBooking(bookingId) {
+  return axios.get(`http://localhost:3000/api/bookings/${bookingId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+    },
+  });
+}
+
 
 function getAllInfoByUser(id_account) {
     
@@ -49,4 +57,4 @@ async function confirmPayment(id, total) {
   );
 }
 
-export default { getAllBookingsById, getAllInfoByUser, updateUser, updateBooking, deleteBooking, confirmPayment};
+export default { getAllBookingsById, getAllInfoByUser, updateUser, updateBooking, deleteBooking, confirmPayment, getInvoicesOfBooking};
