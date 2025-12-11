@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
 import Carrousel from "../Components/Carroussel";
 import HeroHeaderImage from "../assets/HERO HEADER.png";
+
+
 
 function PageAccueil() {
   return (
@@ -32,9 +35,11 @@ function PageAccueil() {
           </p>
 
           {/* Bouton Réserver */}
+          <Link to="/inscription">
           <button className="mt-6 px-6 py-3 bg-[#F5A623] text-white font-roboto font-bold text-[18px] rounded hover:bg-[#D98C1F] transition-colors duration-300">
             Réserver
           </button>
+          </Link>
         </div>
       </section>
 
