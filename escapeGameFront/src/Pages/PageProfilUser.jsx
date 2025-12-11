@@ -4,10 +4,13 @@ import FeedbackList from "../Components/FeedbackList.jsx";
 import SidebarClient from "../Components/Sidebar.jsx";
 import ProfilList from "../Components/ProfilList.jsx";
 import { HiMenu } from "react-icons/hi";
+import InvoicesList from "../Components/InvoicesList.jsx";
+import Documentation from "../Components/Documentation.jsx";
 
 export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
   const [ongletActif, setOngletActif] = useState("reservations");
   const [openMobileSidebar, setOpenMobileSidebar] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   let contenu;
   if (ongletActif === "profil") {
@@ -16,7 +19,17 @@ export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
     contenu = <BookingsList />;
   } else if (ongletActif === "avis") {
     contenu = <FeedbackList />;
-  }
+  } else if (ongletActif === "invoices") {
+  contenu = <InvoicesList />;
+} else if (ongletActif === "documentation") {
+  contenu = <Documentation show={showModal} onClose={() => setShowModal(false)} />;
+}
+
+const HandleOpenDocumentation = async () => {
+    setShowModal(true);
+  
+
+}
 
   return (
     <div className="flex min-h-screen text-slate-50">
@@ -28,6 +41,7 @@ export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
         setOpenMobile={setOpenMobileSidebar}
           setIsLoggedIn={setIsLoggedIn}
   setUser={setUser}
+  onOpenDoc={HandleOpenDocumentation}
       />
 
 

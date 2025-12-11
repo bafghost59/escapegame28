@@ -7,13 +7,14 @@ import {
 import { HiShoppingBag, HiUser, HiViewBoards } from "react-icons/hi";
 import { MdFeedback } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
+import { TbFileInvoice } from "react-icons/tb";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SidebarClient({
   ongletActif,
   setOngletActif,
   openMobile,
-  setOpenMobile, setIsLoggedIn, setUser
+  setOpenMobile, setIsLoggedIn, setUser, onOpenDoc
 }) {
   const navigate = useNavigate();
   const handleSelect = (onglet) => {
@@ -50,6 +51,17 @@ export default function SidebarClient({
           </SidebarItem>
 
           <SidebarItem
+            icon={TbFileInvoice}
+            onClick={() => handleSelect("invoices")}
+            className={`cursor-pointer ${
+              ongletActif === "invoices"
+                ? "bg-slate-800 text-white"
+                : "hover:bg-slate-800/70"
+            }`}
+          >
+            Mes factures
+          </SidebarItem>
+          <SidebarItem
             icon={HiShoppingBag}
             onClick={() => handleSelect("reservations")}
             className={`cursor-pointer ${
@@ -77,6 +89,9 @@ export default function SidebarClient({
         <SidebarItemGroup>
           <SidebarItem
             icon={HiViewBoards}
+            onClick={() => { handleSelect("documentation");
+               onOpenDoc();
+}} 
             className="cursor-pointer hover:bg-slate-800/70"
           >
             Documentation
