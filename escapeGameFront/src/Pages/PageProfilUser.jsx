@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BookingsList from "../Components/BookingsList.jsx";
-import FeedbackList from "../Components/FeedbackList.jsx";
+
 import SidebarClient from "../Components/Sidebar.jsx";
 import ProfilList from "../Components/ProfilList.jsx";
 import { HiMenu } from "react-icons/hi";
