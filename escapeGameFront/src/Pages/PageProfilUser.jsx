@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BookingsList from "../Components/BookingsList.jsx";
-import FeedbackList from "../Components/FeedbackList.jsx";
+
 import SidebarClient from "../Components/Sidebar.jsx";
 import ProfilList from "../Components/ProfilList.jsx";
 import { HiMenu } from "react-icons/hi";
@@ -17,9 +17,7 @@ export default function PageProfilUser({user, setIsLoggedIn, setUser}) {
     contenu = <ProfilList />;
   } else if (ongletActif === "reservations") {
     contenu = <BookingsList />;
-  } else if (ongletActif === "avis") {
-    contenu = <FeedbackList />;
-  } else if (ongletActif === "invoices") {
+  }  else if (ongletActif === "invoices") {
   contenu = <InvoicesList />;
 } else if (ongletActif === "documentation") {
   contenu = <Documentation show={showModal} onClose={() => setShowModal(false)} />;

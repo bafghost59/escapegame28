@@ -73,17 +73,6 @@ export default function SidebarClient({
             Mes réservations
           </SidebarItem>
 
-          <SidebarItem
-            icon={MdFeedback}
-            onClick={() => handleSelect("avis")}
-            className={`cursor-pointer ${
-              ongletActif === "avis"
-                ? "bg-slate-800 text-white"
-                : "hover:bg-slate-800/70"
-            }`}
-          >
-            Mes avis
-          </SidebarItem>
         </SidebarItemGroup>
 
         <SidebarItemGroup>

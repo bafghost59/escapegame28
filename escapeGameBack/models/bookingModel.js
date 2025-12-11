@@ -175,12 +175,15 @@ SELECT
   users.email,
   users.adress,
   users.city,
-  users.postal_code
+  users.postal_code,
+  payment.date_payment
 FROM booking
 INNER JOIN users
   ON booking.user_id = users.id_user
 INNER JOIN escapeGame
   ON booking.escape_id = escapeGame.id_escape
+LEFT JOIN payment
+  ON payment.booking_id = booking.id_booking
 WHERE users.account_id = ?
 ORDER BY booking.hours_selected ASC;
 `;

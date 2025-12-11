@@ -91,7 +91,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
       className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
       aria-label="Connexion"
     >
-      Connexion
+      Connexion/Inscription
     </button>
   )}
 </div>

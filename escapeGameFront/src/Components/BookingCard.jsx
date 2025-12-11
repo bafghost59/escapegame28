@@ -17,13 +17,29 @@ export default function BookingCard({ booking, onDelete }) {
     escape_id: booking.escape_id
   });
 
-  const isoString = "2025-01-10T13:00:00.000Z";
-  const dateObj = new Date(isoString);
-  const dateFr = dateObj.toLocaleDateString("fr-FR");
-  const heureFr = dateObj.toLocaleTimeString("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+const dateOnly = booking.date_booking
+  ? new Date(booking.date_booking).toISOString().slice(0, 10) // "2025-01-10"
+  : null;
+
+const timeOnly = booking.hours_selected?.slice(0, 5) || null; // "14:00"
+
+const combined = dateOnly && timeOnly
+  ? new Date(`${dateOnly}T${timeOnly}`)
+  : booking.date_booking
+    ? new Date(booking.date_booking)
+    : null;
+
+const dateFr = combined
+  ? combined.toLocaleDateString("fr-FR")
+  : "";
+
+const heureFr = combined
+  ? combined.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+  : "";
+
+const displayBookingDate = new Date(
+  booking.date_payment || booking.date_booking
+).toLocaleDateString("fr-FR");
 
   const handleUpdate = async () => {
     try {
@@ -82,7 +98,7 @@ const handleResumePayment = async () => {
             </span>
             <br />
             <span className="font-semibold">
-              {new Date(booking.date_booking).toLocaleDateString("fr-FR")}
+              {displayBookingDate}
             </span>
           </p>
 
@@ -141,7 +157,7 @@ const handleResumePayment = async () => {
   {/* Boutons conditionnels selon statut */}
   {booking.status === "en attente" ? (
     <>
-      <Button size="sm" color="blue" onClick={handleResumePayment} disabled={isLoading} className="flex-1">
+      <Button size="sm" color="success" onClick={handleResumePayment} disabled={isLoading} className="flex-1">
         💳 Reprendre paiement
       </Button>
       <Button size="sm" color="failure" onClick={handleDelete} className="flex-1">

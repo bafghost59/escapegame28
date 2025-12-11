@@ -11,6 +11,7 @@ export default function BookingsList() {
       try {
         const response = await PageProfilService.getAllBookingsById(id);
         setBookings(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Erreur lors de la récupération des réservations", error);
       }

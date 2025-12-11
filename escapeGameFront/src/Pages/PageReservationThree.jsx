@@ -64,7 +64,11 @@ export default function PageReservationThree() {
   }, [id]);
 
 const handleDownloadInvoice = () => {
-  // Vérifier que les données sont chargées
+
+
+
+
+
   if (!bookingDetails) {
     alert("Les informations de réservation ne sont pas disponibles.");
     return;
@@ -118,8 +122,8 @@ const handleDownloadInvoice = () => {
   doc.setFont("helvetica", "normal");
   let invoiceDate = "Date inconnue";
 
-if (bookingDetails.date_payment) {
-  const d = new Date(bookingDetails.date_payment);
+if (bookingDetails.date_booking) {
+  const d = new Date(bookingDetails.date_booking);
   if (!isNaN(d.getTime())) {
     invoiceDate = d.toLocaleDateString("fr-FR");
   }

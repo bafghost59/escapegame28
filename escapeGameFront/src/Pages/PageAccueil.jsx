@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import Carrousel from "../Components/Carroussel";
 import HeroHeaderImage from "../assets/HERO HEADER.png";
 
-
-
 function PageAccueil() {
   const navigate = useNavigate(); 
   return (
