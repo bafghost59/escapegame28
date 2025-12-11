@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import Carrousel from "../Components/Carroussel";
 import HeroHeaderImage from "../assets/HERO HEADER.png";
 
 function PageAccueil() {
+  const navigate = useNavigate(); 
   return (
     <div className="w-full flex flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]">
       {/* Supprimer les soulignements de tous les liens dans cette page car ça ne faisait pas propre*/}
@@ -32,7 +34,7 @@ function PageAccueil() {
           </p>
 
           {/* Bouton Réserver */}
-          <button className="mt-6 px-6 py-3 bg-[#F5A623] text-white font-roboto font-bold text-[18px] rounded hover:bg-[#D98C1F] transition-colors duration-300">
+          <button className="mt-6 px-6 py-3 bg-[#F5A623] text-white font-roboto font-bold text-[18px] rounded hover:bg-[#D98C1F] transition-colors duration-300 " onClick={() => navigate("/catalogue")}>
             Réserver
           </button>
         </div>
