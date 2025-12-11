@@ -1,17 +1,19 @@
 const PageApropos = () => {
   return (
-    <div className="min-h-screen bg-[#1E1E2F] text-[#FFFFFF] px-6 py-10 font-sans">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#1E1E2F] text-[#FFFFFF] px-6 py-10 font-sans">  {/*Conteneur principal avec hauteur minimale, fond sombre, texte blanc, padding et police sans-serif */}
+      <div className="max-w-5xl mx-auto space-y-8"> {/* Conteneur central pour limiter la largeur et espacer les sections */}
         <h1 className="text-4xl md:text-5xl font-bold text-[#F5A623]">
           À propos de notre projet Escape Game
         </h1>
 
+        {/* Paragraphe d'introduction */}
         <p className="text-lg md:text-xl leading-relaxed">
           Bienvenue sur notre plateforme dédiée aux <strong>escape games à domicile et sur site</strong>.
-          Ce projet est réalisé dans le cadre de notre formation Développeur Web et Mobile. 
+          Ce projet est réalisé dans le cadre de notre formation Développeur Web et Mobile.
           L’objectif est de créer une expérience immersive, intuitive et accessible à tous.
         </p>
 
+        {/* Section "Notre mission" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Notre mission</h2>
           <ul className="list-disc list-inside space-y-2">
@@ -23,6 +25,7 @@ const PageApropos = () => {
           </ul>
         </section>
 
+        {/* Section "Pour qui ?" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Pour qui ?</h2>
           <ul className="list-disc list-inside space-y-2">
@@ -31,6 +34,7 @@ const PageApropos = () => {
           </ul>
         </section>
 
+        {/* Section "Fonctionnalités clés" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Fonctionnalités clés</h2>
           <ul className="list-disc list-inside space-y-2">
@@ -42,6 +46,7 @@ const PageApropos = () => {
           </ul>
         </section>
 
+        {/* Section "Design & Expérience" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Design & Expérience</h2>
           <p>
@@ -50,6 +55,7 @@ const PageApropos = () => {
           </p>
         </section>
 
+        {/* Section "Sécurité & Performance" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Sécurité & Performance</h2>
           <ul className="list-disc list-inside space-y-2">
@@ -59,10 +65,11 @@ const PageApropos = () => {
           </ul>
         </section>
 
+        {/* Section "Notre vision" */}
         <section className="bg-[#2C2C3A] p-6 rounded-2xl shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold text-[#F5A623]">Notre vision</h2>
           <p>
-            Nous prévoyons d’enrichir la plateforme avec une application mobile native, des escape games en réalité augmentée. 
+            Nous prévoyons d’enrichir la plateforme avec une application mobile native, des escape games en réalité augmentée.
             L’objectif est de rendre l’expérience immersive, accessible et innovante.
           </p>
         </section>

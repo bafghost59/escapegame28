@@ -1,8 +1,10 @@
-import { useState } from "react";
-import PageSupport from "../Services/PageSupport";
+import { useState } from "react"; // Import du hook useState pour gérer l'état local du formulaire
+import PageSupport from "../Services/PageSupport"; // Import d'un service pour envoyer les messages de support
 
+// Composant fonctionnel pour le formulaire de support
 export default function FormulaireSupport() {
 
+    // State pour stocker les données du formulaire
     const [formData, setFormData] = useState({
         sujet: "",
         login: "",
@@ -10,30 +12,34 @@ export default function FormulaireSupport() {
         message: ""
     });
 
+    // Fonction pour mettre à jour le state à chaque changement d'input
     const handleChange = (e) => {
+        // Met à jour formData en conservant les valeurs existantes et en remplaçant la valeur du champ modifié
         setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
+            ...formData,  // Copie des valeurs existantes
+            [e.target.name]: e.target.value // Mise à jour du champ modifié
         });
     };
 
+    // Fonction pour gérer la soumission du formulaire
      const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Empêche le rechargement de la page
 
+        // Préparation des données pour l'envoi
      const mappedData = {
             user_id: 1,                      
-            subject: formData.sujet,
-            message: formData.message,
+            subject: formData.sujet, // Sujet du message
+            message: formData.message,  // Contenu du message
             booking_id: null
         };
 
         try {
+            // Appel à la fonction du service pour envoyer le message
             const result = await PageSupport.sendSupportMessage(mappedData);
-            console.log(result);
-            alert("Message envoyé !");
+            alert("Message envoyé !"); // Confirmation à l'utilisateur
         } catch (error) {
             console.error(error);
-            alert("Erreur lors de l'envoi.");
+            alert("Erreur lors de l'envoi."); // Gestion d'erreur
         }
     };
 
@@ -112,7 +118,7 @@ export default function FormulaireSupport() {
                                 <textarea
                                     name="message"
                                     id="message"
-                                    rows="6"
+                                    rows="6" // Hauteur du textarea
                                     onChange={handleChange}
                                     className="block py-3 px-3 w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-[#F5A623] peer transition resize-none"
                                     placeholder=" "
@@ -127,7 +133,7 @@ export default function FormulaireSupport() {
                             </div>
 
                             <button
-                                type="submit"
+                                type="submit" // Type submit pour déclencher handleSubmit
                                 className="w-full rounded-xl border border-black p-2 bg-[#F5A623] hover:bg-[#D98C1F] text-white font-semibold mt-2 transition-colors duration-300"
                             >
                                 Envoyer

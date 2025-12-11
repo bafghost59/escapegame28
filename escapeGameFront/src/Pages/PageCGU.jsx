@@ -1,7 +1,7 @@
 
 function PageCGU() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]">
+    <div className="flex flex-col min-h-screen bg-[#1E1E2F] text-[#EAEAEA]"> {/* Conteneur principal : flex-col pour empiler les éléments, hauteur minimale écran, fond sombre et texte clair */}
      
 
       {/* Contenu principal */}
