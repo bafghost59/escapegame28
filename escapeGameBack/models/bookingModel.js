@@ -169,7 +169,13 @@ SELECT
   escapeGame.title,
   escapeGame.location,
   escapeGame.price_escape,
-  escapeGame.photo_escape
+  escapeGame.photo_escape,
+  users.lastname,
+  users.firstname,
+  users.email,
+  users.adress,
+  users.city,
+  users.postal_code
 FROM booking
 INNER JOIN users
   ON booking.user_id = users.id_user
