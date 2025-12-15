@@ -1,7 +1,15 @@
-// src/Services/PageReservationOne.js
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+
+const api = axios.create({ baseURL: API_BASE_URL });
+
+function toServiceError(error, fallbackMessage) {
+  return new Error(
+    error?.response?.data?.message || error?.message || fallbackMessage
+  );
+}
 
 export async function createBooking({
   date_booking,
@@ -11,45 +19,32 @@ export async function createBooking({
   status = "en attente",
 }) {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/addbooking`,
-      {
-        date_booking,
-        hours_selected,
-        status,
-        user_id,
-        escape_id,
-      }
-    );
-
-    return response.data;
+    const { data } = await api.post("/addbooking", {
+      date_booking,
+      hours_selected,
+      status,
+      user_id,
+      escape_id,
+    });
+    return data;
   } catch (error) {
-    const message =
-      error.response?.data?.message ||
-      "Erreur lors de la création de la réservation";
-    throw new Error(message);
+    throw toServiceError(error, "Erreur lors de la crǸation de la rǸservation");
   }
 }
-
 
 export async function getAvailableSlots({ escape_id, date }) {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/bookings/availability`,
-      {
-        params: {
-          escapeId: escape_id,
-          date,             // format 'YYYY-MM-DD'
-        },
-      }
-    );
-    return response.data.slots; // ["10:00", "14:00", ...]
+    const { data } = await api.get("/bookings/availability", {
+      params: {
+        escapeId: escape_id,
+        date,
+      },
+    });
+    return data.slots;
   } catch (error) {
-    const message =
-      error.response?.data?.message ||
-      'Erreur lors du chargement des créneaux disponibles';
-    throw new Error(message);
+    throw toServiceError(
+      error,
+      "Erreur lors du chargement des crǸneaux disponibles"
+    );
   }
 }
-
-

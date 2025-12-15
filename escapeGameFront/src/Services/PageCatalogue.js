@@ -1,35 +1,31 @@
-// src/Services/PageCatalogue.js
+import axios from "axios";
 
-// URL de base -> note le /api
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+
+const api = axios.create({ baseURL: API_BASE_URL });
+
+function toServiceError(error, fallbackMessage) {
+  return new Error(
+    error?.response?.data?.message || error?.message || fallbackMessage
+  );
+}
 
 export async function getAllEscapes() {
-  const response = await fetch(`${API_BASE_URL}/escapes/with-ratings`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Erreur lors du chargement des escapes");
+  try {
+    const { data } = await api.get("/escapes/with-ratings");
+    return data;
+  } catch (error) {
+    throw toServiceError(error, "Erreur lors du chargement des escapes");
   }
-
-  return response.json();
 }
 
 export async function getEscapeById(id) {
-  const response = await fetch(`${API_BASE_URL}/escapes/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Erreur lors du chargement de l'escape");
+  try {
+    const { data } = await api.get(`/escapes/${id}`);
+    return data;
+  } catch (error) {
+    throw toServiceError(error, "Erreur lors du chargement de l'escape");
   }
-
-  return response.json();
 }
-
-
 

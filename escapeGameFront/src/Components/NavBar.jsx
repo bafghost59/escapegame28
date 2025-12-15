@@ -65,7 +65,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
                         <li key={link.name}>
                             <Link
                                 to={link.to}
-                                className="text-[#CCCCCC] no-underline transition-colors duration-200 hover:text-[#F5A623]"
+                                className="inline-flex h-10 items-center text-[#CCCCCC] no-underline transition-colors duration-200 hover:text-[#F5A623]"
                                 aria-label={link.name}
                             >
                                 {link.name}
@@ -80,15 +80,15 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
   {isLoggedIn ? (
     <button
       onClick={handleProfileClick}
-      className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+      className="inline-flex h-10 items-center justify-center rounded-xl bg-[#4A90E2] px-4 text-sm md:text-base font-semibold font-['Open_Sans'] text-white transition-colors duration-200 hover:bg-[#357ABD]"
       aria-label="Accéder à l'espace client"
     >
-      {user?.firstname}
+      {user?.firstname || "Mon compte"}
     </button>
   ) : (
     <button
       onClick={handleLoginClick}
-      className="rounded-2xl bg-[#4A90E2] px-6 py-2 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+      className="inline-flex h-10 items-center justify-center rounded-xl bg-[#4A90E2] px-4 text-sm md:text-base font-semibold font-['Open_Sans'] text-white transition-colors duration-200 hover:bg-[#357ABD]"
       aria-label="Connexion"
     >
       Connexion/Inscription
@@ -142,7 +142,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         handleProfileClick();
         setOpen(false);
       }}
-      className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-red-500"
+      className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#4A90E2] px-5 text-base font-semibold font-['Open_Sans'] text-white transition-colors duration-200 hover:bg-red-500"
     >
       {user?.firstname || "Mon compte"}
     </button>
@@ -152,7 +152,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         handleLoginClick();
         setOpen(false);
       }}
-      className="inline-block w-full rounded-2xl bg-[#4A90E2] px-6 py-3 text-[18px] font-bold font-['Roboto'] text-white transition-all duration-300 hover:bg-[#357ABD]"
+      className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#4A90E2] px-5 text-base font-semibold font-['Open_Sans'] text-white transition-colors duration-200 hover:bg-[#357ABD]"
     >
       Connexion
     </button>
@@ -164,6 +164,3 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         </header>
     );
 }
-
-
-
