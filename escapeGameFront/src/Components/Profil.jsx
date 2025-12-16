@@ -1,32 +1,31 @@
 import { useState } from "react";
 import PageProfilService from "../Services/PageProfilService";
 
-export default function ProfilUser({ profilInfo, setProfilInfo }) {
-  const [modeEdition, setModeEdition] = useState(false);
-  const id = Number(localStorage.getItem("user_id"));
+export default function ProfilUser({ profilInfo, setProfilInfo }) {                                                            // Récupérés depuis le parent - ProfilList
+  const [modeEdition, setModeEdition] = useState(false);                                                                       // false car infos non modifiables par défaut - si vrai, user peut modifier ses infos 
+  const id = Number(localStorage.getItem("user_id"));                                                                                // id en mémoire locale
 
   const [formProfil, setFormProfil] = useState({
     lastname: profilInfo.lastname,
     firstname: profilInfo.firstname,
     email: profilInfo.email,
-    adress: profilInfo.adress,
+    adress: profilInfo.adress,                                                                                                         // état avec toutes les infos de la bdd lié au props et à l'user concerné
     postal_code: profilInfo.postal_code,
     city: profilInfo.city,
     role: profilInfo.role,
-    // tu ajouteras plus tard login / password depuis la BDD
     login: profilInfo.login || "",
     password: "",
   });
 
   const handleToggleEdition = () => {
-    setModeEdition((prev) => !prev);
+    setModeEdition((prev) => !prev);                                                                                                     // fonction qui permet de Modifier le profil
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
       await PageProfilService.updateUser(id, formProfil);
-      alert("Vos informations ont été modifiées avec succès !");
+      alert("Vos informations ont été modifiées avec succès !");                                                                         // si interrogation bdd OK - alert
       setModeEdition(false);
       setProfilInfo((prev) => ({
         ...prev,

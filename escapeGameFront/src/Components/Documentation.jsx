@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function Documentation ({show, onClose }) {
+export default function Documentation ({show, onClose }) {                                      // Props liés à la modal de Flowbite - initiés dans PageProgilUser
 
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function Documentation ({show, onClose }) {
           </ModalHeader>
           <ModalBody className="flex-col bg-slate-500 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
             <div className="flex flex-col gap-4">
-            <div className="bg-slate-500 text-center border rounded-lg dark:text-white" onClick={() => navigate("/cgu")}>Conditions d'utilisation</div>
+            <div className="bg-slate-500 text-center border rounded-lg dark:text-white" onClick={() => navigate("/cgu")}>Conditions d'utilisation</div> {/* utilisation d'un hooks pour naviguer vers la page souhaité */}
 
             <div className="bg-slate-500 text-center border rounded-lg dark:text-white" onClick={() => navigate("/rgpd")}>Politique de confidentialité</div>
             </div>

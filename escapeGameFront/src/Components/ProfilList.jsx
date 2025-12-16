@@ -6,15 +6,14 @@ import { useState } from "react";
 import ProfilUser from "./Profil";
 
 export default function ProfilList() {
-  const id = localStorage.getItem("user_id");
-  const [profilInfo, setProfilInfo] = useState(null);
+  const id = localStorage.getItem("user_id");                                                                    // récupération de l'id user
+  const [profilInfo, setProfilInfo] = useState(null);                                                            // création d'un état pour permettre l'affichage des infos de l'user
 
   useEffect(() => {
     const fetchInfoUser = async () => {
       try {
         const response = await PageProfilService.getAllInfoByUser(id);
-        console.log("API profil :", response.data);
-        setProfilInfo(response.data.user[0]);
+        setProfilInfo(response.data.user[0]);                                                                       // état qui se met à jour avec les infos de l'user dans la bdd
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des informations utilisateur",
@@ -35,9 +34,9 @@ export default function ProfilList() {
         {profilInfo && (
           <ProfilUser
             profilInfo={profilInfo}
-            setProfilInfo={setProfilInfo}
+            setProfilInfo={setProfilInfo}                                                                         
           />
-        )}
+        )}                                                                                                                             {/* props initié pour être récupéré dans profil */}
       </div>
     </>
   );

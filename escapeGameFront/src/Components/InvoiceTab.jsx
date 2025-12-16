@@ -4,10 +4,10 @@ import Logo from "../assets/Logo.png";
 
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
-export function InvoiceTab({ booking }) {
+export function InvoiceTab({ booking }) {                                                     // Props Booking récupéré du parent (InvoicesList)
   const [generating, setGenerating] = useState(false);
 
-  const handleDownloadInvoice = () => {
+  const handleDownloadInvoice = () => {                                                                           // Fonction pour télécharger Facture
     if (!booking) {
       alert("Les informations de réservation ne sont pas disponibles.");
       return;
@@ -23,7 +23,7 @@ export function InvoiceTab({ booking }) {
     doc.text("FACTURE", 105, y + 10, { align: "center" });
     y += 30;
 
-    doc.setFontSize(11);
+    doc.setFontSize(11);                                                                                                              // Tous les paramètres pour la facture crée 
     doc.setFont("helvetica", "bold");
     doc.text("Escape Game 28", marginLeft, y);
     doc.setFont("helvetica", "normal");

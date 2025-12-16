@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function FormulaireMdpOublie() {
+export default function FormulaireMdpOublie() {                                                 // Même principe que Formulaire de connexion / d'inscription
 
 
     const [login, setLogin] = useState("");

@@ -12,28 +12,26 @@ export default function InvoicesList() {
     async function fetchInvoices() {
       try {
         const token = localStorage.getItem("token");
-        console.log("🔑 token =", token);
+        console.log("🔑 token =", token);                                                                               // Infos pour récupérer la liste des factures
         console.log("👤 accountId =", accountId);
 
-        if (!token || !accountId) return;
+        if (!token || !accountId) return;                                                                                // Si KO - Return 
 
         const res = await PageProfilService.getAllBookingsById(accountId);
-        console.log("📡 res.data dans InvoicesList =", res.data);
-        setBookings(res.data);
+        setBookings(res.data);                                                                                           // SI OK - Interrogation de la BDD - la réponse est stocké dans un tableau ensuite
       } catch (error) {
         console.error("Erreur chargement factures", error);
       } finally {
-        setLoading(false);
+        setLoading(false);                                                                                                 // False - Pas de factures dans la BDD - info à l'user ensuite
       }
     }
 
     fetchInvoices();
   }, [accountId]);
 
-  const paidBookings = bookings.filter((b) => b.status === "confirmé");
+  const paidBookings = bookings.filter((b) => b.status === "confirmé");                                                       // Const pour ne récupérer que les réservations confirmées - filtre appliqué
 
   useEffect(() => {
-    console.log("📦 bookings dans InvoicesList :", bookings);
   }, [bookings]);
 
   return (
@@ -44,13 +42,13 @@ export default function InvoicesList() {
 
       {loading && (
         <div className="flex justify-center py-12">
-          <p className="text-lg text-gray-600 dark:text-gray-400">Chargement des factures...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Chargement des factures...</p>                                     {/* Application d'un temps de chargement pour les factures */}
         </div>
       )}
 
       {!loading && paidBookings.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-xl text-gray-600 dark:text-gray-400">Aucune réservation payée pour le moment.</p>
+          <p className="text-xl text-gray-600 dark:text-gray-400">Aucune réservation payée pour le moment.</p>                        {/* si les 2 conditions sont vraies - Pas de factures */}
         </div>
       )}
 
@@ -73,8 +71,8 @@ export default function InvoicesList() {
                   <span className="sr-only">Edit</span>
                 </TableHeadCell>
               </TableHead>
-              <TableBody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {paidBookings.map((booking) => (
+              <TableBody className="divide-y divide-gray-200 dark:divide-gray-700">                                                     {/* Si les 2 conditions sont vraies - pas de temps de chargement + réservations payées dans la BDD - .map sur les réservations payées - génération des factures  */}
+                {paidBookings.map((booking) => (                                                                                        
                   <InvoiceTab booking={booking} key={booking.id_booking} />
                 ))}
               </TableBody>
