@@ -10,7 +10,7 @@ export default function BookingCard({ booking, onDelete }) {
   const [formData, setFormData] = useState({
     date_booking: booking.date_booking
       ? new Date(booking.date_booking).toISOString().slice(0, 19).replace('T', ' ')
-      : '',
+      : '',                                                                                             // Modal pour modifier Résa
     hours_selected: booking.hours_selected?.slice(0, 5) || '14:00',
     status: booking.status,
     user_id: booking.user_id,
@@ -29,7 +29,7 @@ const combined = dateOnly && timeOnly
     ? new Date(booking.date_booking)
     : null;
 
-const dateFr = combined
+const dateFr = combined                                                                                             // Paramètre pour combiner les 2 infos : date et heure sous format FR depuis la Card
   ? combined.toLocaleDateString("fr-FR")
   : "";
 
@@ -45,7 +45,7 @@ const displayBookingDate = new Date(
     try {
       await PageProfilService.updateBooking(booking.id_booking, formData);
       setShowModal(false);
-      alert('Réservation mise à jour !');
+      alert('Réservation mise à jour !');                                                           // fonction pour permettre la mise à jour de la résa
     } catch (error) {
       console.error('Update error:', error);
     }
@@ -54,8 +54,8 @@ const displayBookingDate = new Date(
   const handleDelete = async () => {
      if (window.confirm("Voulez-vous vraiment supprimer votre réservation ?")) {
       try {
-      await onDelete(booking.id_booking);
-        alert("Réservation supprimée avec succès");
+      await onDelete(booking.id_booking);  // props OnDelete initié dans BookingList
+        alert("Réservation supprimée avec succès");                                                           // Fonction pour suppression de la résa avec alerte
         return
       } catch (error) {
         alert("La suppression a échoué, veuillez réessayer.", error);
@@ -70,9 +70,9 @@ const handleResumePayment = async () => {
       bookingId: booking.id_booking, 
       total: booking.price_escape,   
       escapeTitle: booking.title,    
-      promoCode: ""                   
+      promoCode: ""                                                                                             // Fonction pour reprendre le paiement avec redirection vers Stripe et les informations associées
     });
-    window.location.href = session.url; 
+    window.location.href = session.url;                                                                             // paramètre pour rediriger vers Stripe
   } catch (error) { 
     alert("Erreur paiement, réessayez.");
     console.error(error);
@@ -91,7 +91,7 @@ const handleResumePayment = async () => {
           {booking.title}
         </h5>
 
-        <div className="space-y-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+        <div className="space-y-3 text-sm md:text-base text-gray-700 dark:text-gray-300">                                                     {/* Props Booking utilisé pour récupérer les infos - initié depuis BookingList */}
           <p>
             <span className="font-medium text-gray-500 dark:text-gray-400">
               Date de réservation

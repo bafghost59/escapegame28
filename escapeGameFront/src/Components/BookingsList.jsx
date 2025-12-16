@@ -9,9 +9,8 @@ export default function BookingsList() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await PageProfilService.getAllBookingsById(id);
-        setBookings(response.data);
-        console.log(response.data)
+        const response = await PageProfilService.getAllBookingsById(id);                                              // fonction pour récupérer les résa par id crée en Back
+        setBookings(response.data);                                                                                   // useState appliqué sur la réponse
       } catch (error) {
         console.error("Erreur lors de la récupération des réservations", error);
       }
@@ -21,7 +20,7 @@ export default function BookingsList() {
 
   const handleDeleteBooking = async (id_booking) => {
     try {
-      await PageProfilService.deleteBooking(id_booking);
+      await PageProfilService.deleteBooking(id_booking);                                                // fonction appliqué en props sur BookingCard
       setBookings((prev) => prev.filter((b) => b.id_booking !== id_booking));
     } catch (error) {
       console.error("Erreur lors de la suppression de la réservation", error);

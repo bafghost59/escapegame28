@@ -4,34 +4,34 @@ import ConnexionService from "../Services/ConnexionService.js"
 import PageInscription from "../Pages/PageInscription.jsx";
 
 
-export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
+export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {                                                            // fonction pour le formulaire de connexion
   const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");                                                                                 // useState appliqué sur les infos demandées
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await ConnexionService.ConnexionUser(login, password);
+      const response = await ConnexionService.ConnexionUser(login, password);                                                    // Interrogation de la BDD depuis ConnexionService avec la fonction ConnexionUser
 
       if (response.data) {
-        const userId = response.data.loginInDbId;
+        const userId = response.data.loginInDbId;                                                                                 // Stockage de l'id dans une const
 
         const userData = {
           id: response.data.loginInDbId,
-          firstname: response.data.firstname,
+          firstname: response.data.firstname,                                                                                     // Stockage des infos dans une const
           login: response.data.login,
           token: response.data.token,
         };
         localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("user_id", userId);
+        localStorage.setItem("user_id", userId);                                                                                  // Stockage dans la mémoire locale (localStorage)
         localStorage.setItem("token", response.data.token);
         setIsLoggedIn(true);
         setUser(userData);
 
         if (userId === 6) {
           navigate("/admin");
-        } else {
+        } else {                                                                                                                     // Condition - Si user 6 -> Dashboard Admin sinon -> Page Profil User
           navigate("/Profil");
         }
       }
@@ -50,7 +50,7 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
           Connexion à votre espace
         </h1>
 
-        <form className="max-w-sm mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg" onSubmit={handleSubmit}>
+        <form className="max-w-sm mx-auto bg-white rounded-2xl px-6 py-6 shadow-lg" onSubmit={handleSubmit}>                                       {/* Formulaire de connexion */}
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="text"
@@ -97,15 +97,15 @@ export default function FormulaireConnexion({ setIsLoggedIn, setUser }) {
           </button>
           <p
             onClick={() => { navigate('/forgotPassword'); }}
-            className="underline cursor-pointer mt-6 text-blue-700 text-center"
+            className="underline cursor-pointer mt-6 text-blue-700 text-center"                                               
           >
-            Mot de passe oublié ?
+            Mot de passe oublié ?                                                                                                           {/* Formulaire MDP oublié */}
           </p>
           <p
             onClick={() => { navigate('/inscription/'); }}
             className="underline cursor-pointer mt-2 text-blue-700 text-center"
           >
-            Pas encore de compte ? Inscrivez-vous ici!
+            Pas encore de compte ? Inscrivez-vous ici!                                                                                        {/* Formulaire inscription */}
           </p>
         </form>
       </div>

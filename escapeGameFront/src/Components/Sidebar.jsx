@@ -17,7 +17,7 @@ export default function SidebarClient({
   setOpenMobile, setIsLoggedIn, setUser, onOpenDoc
 }) {
   const navigate = useNavigate();
-  const handleSelect = (onglet) => {
+  const handleSelect = (onglet) => {                                                                        // Récupération des props - la const permet de sélectionner l'onglet souhaité - setOpenMobile a false pour ne pas afficher le menu mobile
     setOngletActif(onglet);
     setOpenMobile(false);
   };
@@ -25,17 +25,17 @@ export default function SidebarClient({
        const handleLogout = () => {
     
     localStorage.removeItem("account_id");
-    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_id");                                                                          // Suppression des infos user des que Logout est enclenché 
     setUser(null);
     setIsLoggedIn(false);
     navigate("/connexion"); 
   };
-
+                                                                                                                 
   const sidebarContent = (
     <Sidebar
       aria-label="Espace client sidebar"
       className="h-full w-full bg-transparent"
-    >
+    >                                                                                                                     {/* composant récupéré sur Flowbite - paramétré par mes soins */}
       <SidebarItems>
         <SidebarItemGroup>
           <SidebarItem
