@@ -18,10 +18,10 @@ export default function BookingCard({ booking, onDelete }) {
   });
 
 const dateOnly = booking.date_booking
-  ? new Date(booking.date_booking).toISOString().slice(0, 10) // "2025-01-10"
+  ? new Date(booking.date_booking).toISOString().slice(0, 10)
   : null;
 
-const timeOnly = booking.hours_selected?.slice(0, 5) || null; // "14:00"
+const timeOnly = booking.hours_selected?.slice(0, 5) || null;
 
 const combined = dateOnly && timeOnly
   ? new Date(`${dateOnly}T${timeOnly}`)
@@ -154,7 +154,6 @@ const handleResumePayment = async () => {
         </div>
 
  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-  {/* Boutons conditionnels selon statut */}
   {booking.status === "en attente" ? (
     <>
       <Button size="sm" color="success" onClick={handleResumePayment} disabled={isLoading} className="flex-1">
