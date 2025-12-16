@@ -204,7 +204,7 @@ const confirmPaymentStatus = async () => {
       await PageProfilService.confirmPayment(id, total);
     }
   } catch (error) {
-    console.error("Erreur lors de la mise à jour du paiement", error);
+    console.error("Erreur lors de la mise à jour du paiement", error);                                                         // const pour permettre d'enregistrer le paiement dans la BDD
   }
 };
 
@@ -217,7 +217,7 @@ useEffect(() => {
   async function fetchBookingDetails() {
     try {
       const token = localStorage.getItem("token");
-      if (!token) return;
+      if (!token) return;                                                               // infos pour être visible sur le PDF de la facture
 
       const res = await axios.get(`${API_BASE_URL}/bookings/${id}`, {
         headers: {
@@ -225,8 +225,7 @@ useEffect(() => {
         },
       });
 
-      console.log("📦 Réponse /bookings/:id :", res.data);
-      // ici la réponse est directement l'objet booking
+ 
       setBookingDetails(res.data);
     } catch (error) {
       console.error("Erreur chargement bookingDetails", error);
@@ -239,7 +238,7 @@ useEffect(() => {
 }, [id]);
 
 useEffect(() => {
-  console.log("🔍 bookingDetails actuel:", bookingDetails);
+
 }, [bookingDetails]);
 
 
